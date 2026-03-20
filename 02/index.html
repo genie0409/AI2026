@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI의 이해 - 화사한 벚꽃 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #FFF5F7;
+            color: #4A4A4A;
+            scroll-behavior: smooth;
+        }
+
+        .cherry-blossom-bg {
+            background: linear-gradient(135deg, #FFB7C5 0%, #FFE4E1 100%);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .accent-text {
+            color: #FF6B81;
+        }
+
+        .btn-pink {
+            background-color: #FFB7C5;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 182, 193, 0.4);
+            text-decoration: none;
+        }
+
+        .btn-pink:hover {
+            background-color: #FF8FA3;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255, 182, 193, 0.6);
+        }
+
+        .btn-large {
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* 타임라인 글머리 기호 위치 조정 */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.55rem;
+            top: 0.25rem;
+            width: 1.1rem;
+            height: 1.1rem;
+            background-color: #FFB7C5;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(255, 182, 193, 0.5);
+            z-index: 10;
+        }
+
+        .quiz-option {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-option:hover {
+            background-color: #FFE4E1;
+        }
+
+        /* 모달 스타일 */
+        #imageModal {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Header -->
+    <header class="cherry-blossom-bg text-white py-16 px-4 text-center shadow-lg">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">🌸 AI의 이해: 문맥을 읽는 지능</h1>
+        <p class="text-lg md:text-xl opacity-90">어렵기만 했던 인공지능, 친구처럼 다정하게 가르쳐줄게!</p>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+
+        <!-- 버튼 섹션 (01 섹션 전) -->
+        <section class="mb-12 text-center flex flex-col md:flex-row items-center justify-center gap-4">
+            <a href="AI_03_Slide.pdf" download="AI_03_Slide.pdf" class="btn-pink btn-large">
+                <i class="fas fa-file-pdf"></i> 핵심 요약 슬라이드 한눈에 알아보기
+            </a>
+            <!-- 동영상 보기 버튼 추가 -->
+            <a href="AI_02_Video.mp4" target="_blank" class="btn-pink btn-large bg-[#FF8FA3]">
+                <i class="fas fa-play-circle"></i> 생생한 동영상으로 보기
+            </a>
+        </section>
+        <div class="text-center mb-16 -mt-8">
+            <p class="text-sm opacity-60 italic">자료를 다운로드하거나 영상을 보면서 더 깊이 있게 공부해봐! 📚🎥</p>
+        </div>
+        
+        <!-- Section 1: Definition -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center"><span class="accent-text">01.</span> 인공지능이란 뭘까?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card p-6 text-center border-t-4 border-[#FFB7C5]">
+                    <div class="text-4xl mb-4">📱</div>
+                    <h3 class="font-bold text-xl mb-2">좁은 AI (ANI)</h3>
+                    <p class="text-sm opacity-80">특정 작업(추천, 번역 등)만 잘하는 단계. 우리가 쓰는 시리나 알파고가 여기 속해!</p>
+                </div>
+                <div class="card p-6 text-center border-t-4 border-[#FF8FA3]">
+                    <div class="text-4xl mb-4">🧠</div>
+                    <h3 class="font-bold text-xl mb-2">범용 AI (AGI)</h3>
+                    <p class="text-sm opacity-80">인간처럼 모든 일을 스스로 판단하고 해결하는 꿈의 단계야. 연구 중이지!</p>
+                </div>
+                <div class="card p-6 text-center border-t-4 border-[#FF6B81]">
+                    <div class="text-4xl mb-4">🚀</div>
+                    <h3 class="font-bold text-xl mb-2">초인공지능 (ASI)</h3>
+                    <p class="text-sm opacity-80">인간의 지능을 완전히 뛰어넘어 난제를 해결하거나 위협이 될 수도 있는 이론적 단계!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: History -->
+        <section class="mb-16 bg-white rounded-3xl p-8 shadow-sm">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <h2 class="text-3xl font-bold"><span class="accent-text">02.</span> AI가 걸어온 길</h2>
+                <!-- 인포그래픽 버튼 -->
+                <button onclick="openModal()" class="btn-pink text-sm">
+                    <i class="fas fa-image"></i> 인포그래픽으로 보기
+                </button>
+            </div>
+            
+            <div class="space-y-10 ml-6 border-l-2 border-[#FFE4E1] pl-10 relative">
+                <div class="timeline-item relative">
+                    <h4 class="font-bold text-[#FF8FA3] text-lg">1950s: 태동기</h4>
+                    <p class="text-sm mt-1">앨런 튜링의 '튜링 테스트'와 다트머스 회의에서 '인공지능'이라는 이름이 태어났어.</p>
+                </div>
+                <div class="timeline-item relative">
+                    <h4 class="font-bold text-[#FF8FA3] text-lg">1970s & 1990s: AI의 겨울</h4>
+                    <p class="text-sm mt-1">기대가 너무 컸을까? 기술적 한계로 연구가 멈췄던 힘든 시기도 있었지.</p>
+                </div>
+                <div class="timeline-item relative">
+                    <h4 class="font-bold text-[#FF8FA3] text-lg">2010s: 딥러닝 르네상스</h4>
+                    <p class="text-sm mt-1">빅데이터와 GPU 덕분에 알파고 같은 혁신이 일어났어. AI가 스스로 특징을 찾기 시작했지!</p>
+                </div>
+                <div class="timeline-item relative">
+                    <h4 class="font-bold text-[#FF8FA3] text-lg">현재: 생성형 패러다임</h4>
+                    <p class="text-sm mt-1">단순 분석을 넘어 글을 쓰고 그림을 그리는 트랜스포머의 시대야!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Deep Learning vs Machine Learning -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center"><span class="accent-text">03.</span> 머신러닝 vs 딥러닝</h2>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="flex-1 card p-8">
+                    <h3 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-tools mr-2 text-[#FFB7C5]"></i> 머신러닝 (ML)</h3>
+                    <p class="text-sm mb-4">사람이 직접 "이런 특징을 봐!"라고 가이드라인(Feature Engineering)을 줘야 해.</p>
+                    <ul class="text-xs space-y-2 opacity-70">
+                        <li>• 정교한 데이터 필수</li>
+                        <li>• 사람이 개입함</li>
+                        <li>• 상대적으로 결과 해석이 쉬움</li>
+                    </ul>
+                </div>
+                <div class="flex-1 card p-8 border-2 border-[#FFB7C5]">
+                    <h3 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-brain mr-2 text-[#FFB7C5]"></i> 딥러닝 (DL)</h3>
+                    <p class="text-sm mb-4">인간의 뇌 신경망을 모방했어. AI가 스스로 데이터에서 특징을 찾아내(특징 추출 자동화)!</p>
+                    <ul class="text-xs space-y-2 opacity-70">
+                        <li>• 엄청나게 많은 데이터 필요</li>
+                        <li>• GPU/TPU 같은 강력한 장비 필요</li>
+                        <li>• 내부가 복잡한 '블랙박스' 구조</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Transformer & Attention -->
+        <section class="mb-16 bg-[#FFF0F3] rounded-3xl p-10">
+            <h2 class="text-3xl font-bold mb-4">❤️ AI의 심장, 트랜스포머</h2>
+            <p class="mb-8 opacity-80">왜 요즘 AI는 말을 그렇게 잘할까? 바로 **'셀프 어텐션(Self-Attention)'** 덕분이야!</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <div class="bg-white p-4 rounded-xl shadow-sm">
+                        <h4 class="font-bold text-[#FF6B81] mb-2">🔍 쿼리(Query)</h4>
+                        <p class="text-xs">"내가 지금 누구인지 이해하기 위해 어떤 정보가 필요할까?" (질문)</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm">
+                        <h4 class="font-bold text-[#FF6B81] mb-2">🏷️ 키(Key)</h4>
+                        <p class="text-xs">"이 단어는 어떤 정보를 담고 있어!" (이름표)</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm">
+                        <h4 class="font-bold text-[#FF6B81] mb-2">💎 밸류(Value)</h4>
+                        <p class="text-xs">"관계가 확인되면 이 내용을 가져가!" (실제 가치)</p>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <div class="card p-6 border-l-4 border-[#FFB7C5]">
+                        <p class="italic text-sm">"동물이 길을 건너지 않았다. 왜냐하면 <strong>그것</strong>은 너무 피곤했기 때문이다."</p>
+                        <div class="mt-4 flex items-center gap-2">
+                            <span class="px-2 py-1 bg-[#FFB7C5] text-white text-[10px] rounded">그것</span>
+                            <i class="fas fa-arrow-right text-[#FFB7C5]"></i>
+                            <span class="px-2 py-1 bg-[#FF8FA3] text-white text-[10px] rounded font-bold">동물</span>
+                        </div>
+                        <p class="mt-2 text-[11px] opacity-70">AI는 셀프 어텐션을 통해 '그것'이 '길'이 아니라 '동물'임을 정확히 짚어내!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Current & Future -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center"><span class="accent-text">04.</span> 지금 그리고 내일</h2>
+            <div class="space-y-6">
+                <div class="card p-6 flex flex-col md:flex-row gap-6 items-start">
+                    <div class="bg-[#FFE4E1] p-4 rounded-2xl"><i class="fas fa-search-plus text-2xl text-[#FF6B81]"></i></div>
+                    <div>
+                        <h4 class="font-bold text-lg">RAG (검색 증강 생성)</h4>
+                        <p class="text-sm opacity-80">AI의 거짓말(환각)을 막기 위해 외부 도서관에서 최신 정보를 직접 찾아보고 대답하는 방식이야. '오픈북 테스트'라고 생각하면 돼!</p>
+                    </div>
+                </div>
+                <div class="card p-6 flex flex-col md:flex-row gap-6 items-start">
+                    <div class="bg-[#FFE4E1] p-4 rounded-2xl"><i class="fas fa-robot text-2xl text-[#FF6B81]"></i></div>
+                    <div>
+                        <h4 class="font-bold text-lg">에이전틱 AI (Agentic AI)</h4>
+                        <p class="text-sm opacity-80">2026년 이후의 미래! 단순히 대답만 하는 게 아니라, 스스로 계획을 세우고 도구를 사용해 프로젝트를 완수하는 똑똑한 비서가 될 거야.</p>
+                    </div>
+                </div>
+                <div class="card p-6 flex flex-col md:flex-row gap-6 items-start border-2 border-[#FFB7C5]">
+                    <div class="bg-[#FFE4E1] p-4 rounded-2xl"><i class="fas fa-bolt text-2xl text-[#FF6B81]"></i></div>
+                    <div>
+                        <h4 class="font-bold text-lg">인프라와 에너지의 한계</h4>
+                        <p class="text-sm opacity-80">AI가 똑똑해질수록 엄청난 전기가 필요해. 그래서 앞으로는 '에너지 확보'가 국가 경쟁력이 될 전망이야.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="card p-10 border-dashed border-2 border-[#FFB7C5] mb-20">
+            <h2 class="text-2xl font-bold mb-6 text-center">🌸 작은 퀴즈! 잘 이해했니?</h2>
+            <div id="quiz-container">
+                <p class="text-center mb-6">"AI가 외부 데이터를 참고해 환각 현상을 줄이는 기술의 이름은?"</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div onclick="checkAnswer(false)" class="quiz-option p-4 border rounded-xl text-center">GPT-5</div>
+                    <div onclick="checkAnswer(true)" class="quiz-option p-4 border rounded-xl text-center">RAG (검색 증강 생성)</div>
+                    <div onclick="checkAnswer(false)" class="quiz-option p-4 border rounded-xl text-center">셀프 어텐션</div>
+                    <div onclick="checkAnswer(false)" class="quiz-option p-4 border rounded-xl text-center">알파고</div>
+                </div>
+                <div id="quiz-result" class="mt-6 text-center hidden font-bold text-[#FF6B81]"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 이미지 팝업 모달 -->
+    <div id="imageModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 hidden px-4">
+        <button onclick="closeModal()" class="absolute top-6 right-6 text-white text-3xl hover:text-pink-300 transition-colors">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="max-w-5xl w-full max-h-[90vh] overflow-auto bg-white rounded-2xl p-2 shadow-2xl">
+            <img src="AI_04_History.png" alt="AI 역사 인포그래픽" class="w-full h-auto rounded-lg">
+        </div>
+    </div>
+
+    <footer class="bg-white py-12 text-center text-sm opacity-60">
+        <p>© 2026 AI 이해 가이드 | 너의 성장을 언제나 응원할게! 🌸</p>
+    </footer>
+
+    <script>
+        function checkAnswer(isCorrect) {
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.classList.remove('hidden');
+            if (isCorrect) {
+                resultDiv.innerHTML = "정답이야! 역시 넌 똑똑하구나! 🎉";
+                resultDiv.style.color = "#FF6B81";
+            } else {
+                resultDiv.innerHTML = "아쉽지만 틀렸어. 다시 한번 읽어볼래? 할 수 있어! 💪";
+                resultDiv.style.color = "#4A4A4A";
+            }
+        }
+
+        // 모달 열기 함수
+        function openModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // 스크롤 방지
+        }
+
+        // 모달 닫기 함수
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // 스크롤 허용
+        }
+
+        // 모달 바깥쪽 클릭 시 닫기
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+</html>
