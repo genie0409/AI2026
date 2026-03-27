@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부산광역시 인구 구조 변화 인사이트 (2020-2024)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Palette: Vibrant Coral & Electric Blue. HEX: #FF4B4B, #00E5FF, #0F172A, #F8FAFC -->
+    <!-- Narrative Plan: 
+         1. Hero: Big stats showing the contrast between total pop decrease and 60+ pop increase.
+         2. Section 1 (City Trend): Dual axis line chart demonstrating the 'Death Cross' of Busan's demographics.
+         3. Section 2 (District Snapshot): Horizontal bar chart ranking 2024 elderly %.
+         4. Section 3 (Speed of Aging): Scatter plot with collision-aware labels to identify critical zones. -->
+    <!-- Chart Choices & NO SVG Confirmation:
+         1. Total vs 60+ (Goal: Change over time) -> Chart.js Line Chart (Canvas rendering).
+         2. 2024 District Elderly % (Goal: Compare rankings) -> Chart.js Horizontal Bar Chart (Canvas rendering).
+         3. Aging Speed Matrix (Goal: Relationships) -> Chart.js Scatter Plot with Custom Label Placement (Canvas rendering).
+         * NO SVG graphics were used anywhere in this document. All visual elements are Canvas or CSS-styled HTML.
+         * NO Mermaid JS was used. -->
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background-color: #0F172A;
+            color: #F8FAFC;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 500px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .stat-card {
+            background: linear-gradient(145deg, #1E293B, #0F172A);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.4), -5px -5px 15px rgba(255,255,255,0.05);
+        }
+        .section-card {
+            background-color: #1E293B;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        .text-coral { color: #FF4B4B; }
+        .text-cyan { color: #00E5FF; }
+        .bg-coral { background-color: #FF4B4B; }
+        .bg-cyan { background-color: #00E5FF; }
+        
+        /* Sticky Navigation for Home Button */
+        .nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            backdrop-filter: blur(10px);
+            background-color: rgba(15, 23, 42, 0.8);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased pb-20">
+
+    <nav class="nav-header px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-2 text-cyan hover:text-white transition-colors duration-300 font-bold tracking-tight">
+                <span class="text-xl">🏠</span>
+                <span>홈으로</span>
+            </a>
+            <div class="hidden md:block text-slate-500 text-xs font-medium uppercase tracking-widest">
+                Busan Demographics Visualized
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-16 px-6 text-center">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1 rounded-full bg-slate-800 text-cyan text-sm font-semibold tracking-wider mb-6 border border-slate-700">
+                DATA INSIGHT REPORT 2020-2024
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                부산광역시 인구 지형도: <br/>
+                <span class="text-coral">늙어가는 도시</span>, 시계가 빨라지다
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                최근 5년간의 행정구역별 인구 데이터를 바탕으로 부산의 심각한 인구 감소와 초고령 사회 진입 가속도를 입체적으로 분석합니다.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="stat-card rounded-2xl p-8 border border-slate-700/50 flex flex-col justify-center items-center text-center">
+                <div class="text-4xl mb-4">📉</div>
+                <h3 class="text-slate-400 font-medium mb-2">5년간 총인구 감소</h3>
+                <div class="text-5xl font-bold text-white mb-2">-91,760<span class="text-2xl font-normal text-slate-500">명</span></div>
+                <p class="text-sm text-slate-400">2020년 대비 2.74% 감소</p>
+            </div>
+            <div class="stat-card rounded-2xl p-8 border border-slate-700/50 flex flex-col justify-center items-center text-center">
+                <div class="text-4xl mb-4">📈</div>
+                <h3 class="text-slate-400 font-medium mb-2">5년간 60세 이상 증가</h3>
+                <div class="text-5xl font-bold text-coral mb-2">+128,277<span class="text-2xl font-normal text-slate-500">명</span></div>
+                <p class="text-sm text-slate-400">2020년 대비 14.4% 증가</p>
+            </div>
+            <div class="stat-card rounded-2xl p-8 border border-slate-700/50 flex flex-col justify-center items-center text-center">
+                <div class="text-4xl mb-4">👵</div>
+                <h3 class="text-slate-400 font-medium mb-2">2024년 고령 인구 비중</h3>
+                <div class="text-5xl font-bold text-cyan mb-2">31.3<span class="text-2xl font-normal text-slate-500">%</span></div>
+                <p class="text-sm text-slate-400">시민 10명 중 3명이 60세 이상</p>
+            </div>
+        </section>
+
+        <section class="section-card rounded-3xl p-6 md:p-10 border border-slate-700/50">
+            <div class="mb-8 max-w-3xl">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">1. 인구 데드크로스 (Death Cross)</h2>
+                <p class="text-slate-400 leading-relaxed">
+                    부산광역시의 총인구는 매년 꾸준히 우하향 곡선을 그리는 반면, 60세 이상 고령 인구는 폭발적으로 증가하며 우상향하고 있습니다. 2024년에는 마침내 고령 인구 100만 명을 돌파하며 도시의 생산성과 복지 부양비 구조에 심각한 경고등이 켜졌습니다.
+                </p>
+            </div>
+            <div class="chart-container">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="section-card rounded-3xl p-6 md:p-10 border border-slate-700/50">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-white mb-4">2. 극심한 지역별 양극화</h2>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        부산 내 16개 구·군의 고령화 수준은 극명한 차이를 보입니다. 영도구(41.6%)를 비롯한 원도심은 이미 시민 10명 중 4명 이상이 고령자의 심각한 초고령 사회에 진입했습니다. 반면, 신도시가 위치한 강서구(18.6%)는 유일하게 10%대 비중을 유지하며 정반대의 지표를 보여줍니다.
+                    </p>
+                </div>
+                <div class="chart-container" style="height: 500px; max-height: 600px;">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+
+            <div class="section-card rounded-3xl p-6 md:p-10 border border-slate-700/50">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-white mb-4">3. 고령화 가속도 매트릭스</h2>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        현재의 고령 인구 비중(X축)과 지난 5년간의 증가율(Y축)을 교차 분석했습니다. 우측 상단에 위치할수록 '이미 고령화가 심각한데, 늙어가는 속도마저 가장 빠른' 위험 지역입니다. 사상구, 사하구, 영도구가 집중 관리 대상으로 분류됩니다.
+                    </p>
+                </div>
+                <div class="chart-container" style="height: 500px; max-height: 600px;">
+                    <canvas id="scatterChart"></canvas>
+                </div>
+                
+                <div class="mt-6 flex flex-wrap gap-4 text-xs">
+                    <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-coral"></div><span class="text-slate-300">위험 구역 (비중 30%↑, 증가속도 6%p↑)</span></div>
+                    <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-cyan"></div><span class="text-slate-300">성장/안정 구역 (비중 20%↓, 증가속도 최저)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card rounded-3xl p-6 md:p-10 border border-slate-700/50 bg-gradient-to-br from-slate-800 to-slate-900 text-center">
+            <h2 class="text-2xl font-bold text-white mb-6">전략적 제언 (Strategic Recommendations)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                <div class="p-6 bg-slate-800/50 rounded-xl border border-slate-700">
+                    <h4 class="text-lg font-bold text-coral mb-2">원도심: 실버 인프라 집중 재편</h4>
+                    <p class="text-sm text-slate-400">고령 비중이 35%를 초과하는 영도, 중, 동, 서구는 단순한 인구 부양을 넘어 도시의 주거, 의료, 교통 인프라를 '고령자 친화형'으로 완전히 재설계해야 합니다.</p>
+                </div>
+                <div class="p-6 bg-slate-800/50 rounded-xl border border-slate-700">
+                    <h4 class="text-lg font-bold text-cyan mb-2">서부산권: 청년 정착 로드맵 확충</h4>
+                    <p class="text-sm text-slate-400">유일하게 인구가 유입되며 젊은 인구 구조를 유지 중인 강서구의 모멘텀을 이어가기 위해, 보육 및 교육 인프라에 대한 선제적 투자가 필수적입니다.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-10 text-slate-500 text-sm">
+        <p>Data Source: 통계청 인구총조사 (2020-2024 부산광역시 시군구 데이터)</p>
+    </footer>
+
+    <script>
+        function wrapLabel(label) {
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > 16) {
+                    if(currentLine) lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        }
+
+        const tooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        Chart.defaults.color = '#94A3B8';
+        Chart.defaults.font.family = "'Pretendard', sans-serif";
+
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        const trendLabels = ['2020년', '2021년', '2022년', '2023년', '2024년'].map(wrapLabel);
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: trendLabels,
+                datasets: [
+                    {
+                        label: '총 인구 (명)',
+                        data: [3349016, 3324335, 3295760, 3279604, 3257256],
+                        borderColor: '#00E5FF',
+                        backgroundColor: 'rgba(0, 229, 255, 0.1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#00E5FF',
+                        pointBorderColor: '#0F172A',
+                        pointRadius: 6,
+                        yAxisID: 'y',
+                        fill: true,
+                        tension: 0.3
+                    },
+                    {
+                        label: '60세 이상 고령 인구 (명)',
+                        data: [892277, 934024, 965387, 997993, 1020554],
+                        borderColor: '#FF4B4B',
+                        backgroundColor: 'rgba(255, 75, 75, 0.1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#FF4B4B',
+                        pointBorderColor: '#0F172A',
+                        pointRadius: 6,
+                        yAxisID: 'y1',
+                        fill: true,
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { position: 'top', labels: { color: '#F8FAFC', usePointStyle: true, boxWidth: 8 } },
+                    tooltip: tooltipConfig
+                },
+                scales: {
+                    x: { grid: { color: 'rgba(148, 163, 184, 0.1)' } },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { display: true, text: '총 인구', color: '#00E5FF' },
+                        grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                        min: 3000000,
+                        max: 3500000
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: { display: true, text: '60세 이상 인구', color: '#FF4B4B' },
+                        grid: { drawOnChartArea: false },
+                        min: 800000,
+                        max: 1100000
+                    }
+                }
+            }
+        });
+
+        const distData = [
+            {name: '영도구', val24: 41.6, inc: 6.4},
+            {name: '중구', val24: 37.9, inc: 4.3},
+            {name: '동구', val24: 37.0, inc: 3.3},
+            {name: '서구', val24: 36.6, inc: 4.1},
+            {name: '금정구', val24: 33.3, inc: 5.4},
+            {name: '수영구', val24: 32.7, inc: 5.0},
+            {name: '남구', val24: 31.7, inc: 5.0},
+            {name: '사하구', val24: 31.4, inc: 6.2},
+            {name: '사상구', val24: 31.3, inc: 6.5},
+            {name: '부산진구', val24: 30.9, inc: 4.0},
+            {name: '연제구', val24: 30.8, inc: 4.8},
+            {name: '북구', val24: 30.3, inc: 5.7},
+            {name: '동래구', val24: 29.7, inc: 4.9},
+            {name: '해운대구', val24: 29.4, inc: 5.3},
+            {name: '기장군', val24: 26.5, inc: 6.2},
+            {name: '강서구', val24: 18.6, inc: 2.3}
+        ];
+
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        const barLabels = distData.map(d => wrapLabel(d.name));
+        const barValues = distData.map(d => d.val24);
+        const barColors = barValues.map(v => v > 36 ? '#FF4B4B' : (v < 20 ? '#00E5FF' : '#475569'));
+
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: barLabels,
+                datasets: [{
+                    label: '2024년 60세 이상 비중 (%)',
+                    data: barValues,
+                    backgroundColor: barColors,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: tooltipConfig
+                },
+                scales: {
+                    x: { grid: { color: 'rgba(148, 163, 184, 0.1)' }, max: 45 },
+                    y: { grid: { display: false } }
+                }
+            }
+        });
+
+        const scatterCtx = document.getElementById('scatterChart').getContext('2d');
+        const scatterPoints = distData.map(d => ({ x: d.val24, y: d.inc, name: d.name }));
+        
+        const pointBackgroundColors = scatterPoints.map(p => {
+            if(p.x > 31 && p.y > 6.0) return '#FF4B4B'; 
+            if(p.x < 20 && p.y < 3.0) return '#00E5FF'; 
+            return '#64748B';
+        });
+
+        new Chart(scatterCtx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: '구·군별 고령화 속도',
+                    data: scatterPoints,
+                    backgroundColor: pointBackgroundColors,
+                    borderColor: '#0F172A',
+                    borderWidth: 1,
+                    pointRadius: 8,
+                    pointHoverRadius: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const dataObj = context.raw;
+                                return `${dataObj.name}: 비중 ${dataObj.x}%, 증가율 +${dataObj.y}%p`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: '2024년 60세 이상 비중 (%)', color: '#F8FAFC' },
+                        grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                        min: 15, max: 45
+                    },
+                    y: {
+                        title: { display: true, text: '5년간 비중 증가폭 (%p)', color: '#F8FAFC' },
+                        grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                        min: 2, max: 8
+                    }
+                }
+            },
+            plugins: [{
+                id: 'customLabels',
+                afterDraw: (chart) => {
+                    const ctx = chart.ctx;
+                    ctx.font = 'bold 11px Pretendard';
+                    ctx.fillStyle = '#F8FAFC';
+                    ctx.textAlign = 'center';
+                    
+                    const meta = chart.getDatasetMeta(0);
+                    const points = meta.data;
+
+                    points.forEach((point, index) => {
+                        const datapoint = chart.data.datasets[0].data[index];
+                        const x = point.x;
+                        const y = point.y;
+                        
+                        let offsetX = 0;
+                        let offsetY = -15;
+
+                        if (datapoint.name === '중구') { offsetY = -18; offsetX = -10; }
+                        if (datapoint.name === '서구') { offsetY = 20; offsetX = -5; }
+                        if (datapoint.name === '동구') { offsetY = -18; offsetX = 10; }
+                        if (datapoint.name === '사상구') { offsetY = -18; offsetX = -15; }
+                        if (datapoint.name === '사하구') { offsetY = 20; offsetX = 15; }
+                        if (datapoint.name === '기장군') { offsetY = 20; }
+                        if (datapoint.name === '부산진구') { offsetY = -18; offsetX = 12; }
+                        if (datapoint.name === '연제구') { offsetY = 22; offsetX = -12; }
+                        if (datapoint.name === '수영구') { offsetY = -18; offsetX = -10; }
+                        if (datapoint.name === '남구') { offsetY = 22; offsetX = 10; }
+
+                        ctx.fillText(datapoint.name, x + offsetX, y + offsetY);
+                    });
+                }
+            }]
+        });
+    </script>
+</body>
+</html>
