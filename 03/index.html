@@ -63,23 +63,53 @@
             background-color: rgba(15, 23, 42, 0.8);
             border-bottom: 1px solid rgba(148, 163, 184, 0.1);
         }
+
+        /* Modal Animation */
+        #videoModal {
+            transition: opacity 0.3s ease-in-out;
+        }
     </style>
 </head>
 <body class="antialiased pb-20">
 
-    <nav class="nav-header px-6 py-4">
+    <nav class="nav-header px-4 md:px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="../index.html" class="flex items-center gap-2 text-cyan hover:text-white transition-colors duration-300 font-bold tracking-tight">
                 <span class="text-xl">🏠</span>
-                <span>홈으로</span>
+                <span class="hidden sm:inline">홈으로</span>
             </a>
-            <!-- Storybook Link Button -->
-            <a href="https://gemini.google.com/share/fe874a359c4d" target="_blank" class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/60 text-cyan hover:text-white transition-all duration-300 border border-slate-700 hover:border-cyan/50 text-xs md:text-sm font-semibold">
-                <span>📖</span>
-                <span>스토리북 보기</span>
-            </a>
+            
+            <div class="flex items-center gap-2">
+                <!-- Storybook Link Button -->
+                <a href="https://gemini.google.com/share/fe874a359c4d" target="_blank" class="flex items-center gap-2 px-3 md:px-4 py-1.5 rounded-full bg-slate-800/60 text-cyan hover:text-white transition-all duration-300 border border-slate-700 hover:border-cyan/50 text-xs md:text-sm font-semibold">
+                    <span>📖</span>
+                    <span>스토리북 보기</span>
+                </a>
+                <!-- Video Modal Trigger Button -->
+                <button onclick="openVideo()" class="flex items-center gap-2 px-3 md:px-4 py-1.5 rounded-full bg-slate-800/60 text-coral hover:text-white transition-all duration-300 border border-slate-700 hover:border-coral/50 text-xs md:text-sm font-semibold">
+                    <span>🎬</span>
+                    <span>영상 보기</span>
+                </button>
+            </div>
         </div>
     </nav>
+
+    <!-- Video Modal Container -->
+    <div id="videoModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 p-4 opacity-0">
+        <div class="relative w-full max-w-4xl bg-slate-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
+            <!-- Close Button -->
+            <button onclick="closeVideo()" class="absolute top-4 right-4 text-white/50 hover:text-white text-2xl z-10 w-10 h-10 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-md transition-colors">
+                ✕
+            </button>
+            <!-- Video Player -->
+            <div class="aspect-video w-full">
+                <video id="mainVideo" controls class="w-full h-full object-contain">
+                    <source src="./google.mp4" type="video/mp4">
+                    브라우저가 비디오 태그를 지원하지 않습니다.
+                </video>
+            </div>
+        </div>
+    </div>
 
     <header class="pt-32 pb-16 px-6 text-center">
         <div class="max-w-4xl mx-auto">
@@ -183,6 +213,34 @@
     </footer>
 
     <script>
+        // Modal Control Functions
+        const videoModal = document.getElementById('videoModal');
+        const mainVideo = document.getElementById('mainVideo');
+
+        function openVideo() {
+            videoModal.classList.remove('hidden');
+            videoModal.classList.add('flex');
+            setTimeout(() => {
+                videoModal.style.opacity = '1';
+                mainVideo.play();
+            }, 10);
+        }
+
+        function closeVideo() {
+            videoModal.style.opacity = '0';
+            mainVideo.pause();
+            mainVideo.currentTime = 0;
+            setTimeout(() => {
+                videoModal.classList.add('hidden');
+                videoModal.classList.remove('flex');
+            }, 300);
+        }
+
+        // Close on background click
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) closeVideo();
+        });
+
         function wrapLabel(label) {
             if (label.length <= 16) return label;
             const words = label.split(' ');
