@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Literacy: Data to Story | Portfolio</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -17,6 +16,9 @@
                     colors: {
                         darkBg: '#050505',
                         lightBg: '#fbfbfd',
+                    },
+                    fontFamily: {
+                        sans: ['Pretendard', 'Inter', 'sans-serif'],
                     }
                 }
             }
@@ -24,11 +26,11 @@
     </script>
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Pretendard', sans-serif;
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        /* Background Animation */
+        /* 배경 애니메이션 블롭 */
         @keyframes float {
             0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.2; }
             33% { transform: translate(30px, -50px) scale(1.1); opacity: 0.3; }
@@ -63,6 +65,10 @@
             border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
+        .card-hover {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         .card-hover:hover {
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 20px 40px rgba(139, 92, 246, 0.15);
@@ -84,17 +90,26 @@
         .dark ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #d1d1d1; border-radius: 10px; }
         .dark ::-webkit-scrollbar-thumb { background: #333; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="bg-lightBg dark:bg-darkBg text-black dark:text-white overflow-x-hidden selection:bg-purple-500/30">
 
-    <!-- Background Blobs -->
     <div id="blob1" class="bg-blob bg-purple-600/20 dark:bg-purple-900/30 w-[500px] h-[500px] -top-48 -left-48"></div>
     <div id="blob2" class="bg-blob bg-blue-400/20 dark:bg-blue-900/20 w-[400px] h-[400px] bottom-10 -right-20" style="animation-delay: -2s;"></div>
     <div id="blob3" class="bg-blob bg-indigo-400/10 dark:bg-indigo-900/10 w-[300px] h-[300px] top-1/2 left-1/3" style="animation-delay: -5s;"></div>
 
     <div class="relative z-10">
-        <!-- Navigation -->
         <nav class="flex justify-between items-center px-8 py-6 backdrop-blur-md bg-white/70 dark:bg-black/60 sticky top-0 border-b border-black/5 dark:border-white/5 z-50">
             <div class="text-xl font-bold tracking-tighter bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-500 bg-clip-text text-transparent">
                 AI LITERACY
@@ -105,15 +120,13 @@
                     <a href="#about" class="hover:text-black dark:hover:text-white transition-colors">About</a>
                     <a href="#portfolio" class="hover:text-black dark:hover:text-white transition-colors">Portfolio</a>
                 </div>
-                <!-- Theme Toggle Button -->
                 <button id="theme-toggle" class="p-2 rounded-full glass hover:bg-black/5 dark:hover:bg-white/10 transition-all">
                     <i id="theme-icon" data-lucide="moon" class="w-5 h-5 text-gray-600 dark:text-gray-300"></i>
                 </button>
             </div>
         </nav>
 
-        <!-- Hero Section -->
-        <header id="home" class="h-[90vh] flex flex-col justify-center items-center text-center px-4">
+        <header id="home" class="h-[90vh] flex flex-col justify-center items-center text-center px-4 reveal">
             <div class="inline-block px-4 py-1.5 mb-6 border border-black/10 dark:border-white/10 rounded-full bg-black/5 dark:bg-white/5 backdrop-blur-sm">
                 <span class="text-xs font-semibold tracking-widest text-purple-600 dark:text-purple-400 uppercase">2026 Spring Semester</span>
             </div>
@@ -131,8 +144,7 @@
             </div>
         </header>
 
-        <!-- Introduction Section -->
-        <section id="about" class="py-32 px-8 max-w-5xl mx-auto">
+        <section id="about" class="py-32 px-8 max-w-5xl mx-auto reveal">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                 <div>
                     <h2 class="text-4xl font-bold mb-8 leading-tight">AI 리터러시는<br />미래의 새로운 언어입니다.</h2>
@@ -151,23 +163,19 @@
             </div>
         </section>
 
-        <!-- Portfolio Grid Section -->
-        <section id="portfolio" class="py-24 px-8 bg-black/[0.02] dark:bg-white/[0.01]">
+        <section id="portfolio" class="py-24 px-8 bg-black/[0.02] dark:bg-white/[0.01] reveal">
             <div class="max-w-7xl mx-auto">
                 <div class="flex flex-col items-center mb-16 text-center">
                     <h2 class="text-3xl md:text-5xl font-extrabold mb-4">Journey of Learning</h2>
                     <p class="text-gray-500">한 학기 동안 진행된 10개의 과제와 성장의 기록</p>
                 </div>
 
-                <!-- 3-4-3 Layout Grid -->
                 <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-12 gap-8">
-                    <!-- Cards will be injected here -->
-                </div>
+                    </div>
             </div>
         </section>
 
-        <!-- Author Info Section -->
-        <section id="contact" class="py-32 px-8">
+        <section id="contact" class="py-32 px-8 reveal">
             <div class="max-w-4xl mx-auto">
                 <div class="glass rounded-[3rem] p-8 md:p-16 relative overflow-hidden">
                     <div class="absolute -bottom-12 -right-12 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
@@ -175,7 +183,7 @@
                     <div class="flex flex-col md:flex-row items-center gap-12 relative z-10">
                         <div class="w-40 h-40 md:w-48 md:h-48 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center p-1 shrink-0 overflow-hidden">
                             <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden transition-colors">
-                                <img src="https://www.pusan.ac.kr/_contents/kor/_Img/07Intro/ui04.jpg" alt="PNU Logo" class="w-full h-full object-cover p-2">
+                                <img src="https://www.pusan.ac.kr/_contents/kor/_Img/07Intro/ui04.jpg" alt="PNU Logo" class="w-full h-full object-cover p-3">
                             </div>
                         </div>
                         
@@ -188,17 +196,16 @@
                                 끊임없이 고민하고 실험하며 나아가는 중입니다.
                             </p>
                             
-                            <!-- Contact Links -->
                             <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                                <a href="mailto:genie0409@pusan.ac.kr" class="flex items-center gap-3 px-5 py-3 bg-black/5 dark:bg-white/10 text-black dark:text-white rounded-full font-semibold hover:bg-purple-500/20 transition-all justify-center border border-black/5 dark:border-white/5 text-sm md:text-base">
+                                <a href="mailto:genie0409@pusan.ac.kr" class="flex items-center gap-3 px-5 py-3 bg-black/5 dark:bg-white/10 text-black dark:text-white rounded-full font-semibold hover:bg-purple-500/20 transition-all justify-center border border-black/5 dark:border-white/10 text-sm md:text-base">
                                     <i data-lucide="mail" class="w-4 h-4"></i>
                                     genie0409@pusan.ac.kr
                                 </a>
-                                <a href="tel:010-9206-0088" class="flex items-center gap-3 px-5 py-3 bg-black/5 dark:bg-white/10 text-black dark:text-white rounded-full font-semibold hover:bg-blue-500/20 transition-all justify-center border border-black/5 dark:border-white/5 text-sm md:text-base">
+                                <a href="tel:010-9206-0088" class="flex items-center gap-3 px-5 py-3 bg-black/5 dark:bg-white/10 text-black dark:text-white rounded-full font-semibold hover:bg-blue-500/20 transition-all justify-center border border-black/5 dark:border-white/10 text-sm md:text-base">
                                     <i data-lucide="phone" class="w-4 h-4"></i>
                                     010-9206-0088
                                 </a>
-                                <a href="https://www.instagram.com/genie_0409/" target="_blank" class="flex items-center gap-3 px-5 py-3 bg-black/5 dark:bg-white/10 text-black dark:text-white rounded-full font-semibold hover:bg-pink-500/20 transition-all justify-center border border-black/5 dark:border-white/5 text-sm md:text-base">
+                                <a href="https://www.instagram.com/genie_0409/" target="_blank" class="flex items-center gap-3 px-5 py-3 bg-black/5 dark:bg-white/10 text-black dark:text-white rounded-full font-semibold hover:bg-pink-500/20 transition-all justify-center border border-black/5 dark:border-white/10 text-sm md:text-base">
                                     <i data-lucide="instagram" class="w-4 h-4"></i>
                                     @genie_0409
                                 </a>
@@ -209,7 +216,6 @@
             </div>
         </section>
 
-        <!-- Footer -->
         <footer class="py-20 px-8 border-t border-black/5 dark:border-white/5 text-center">
             <p class="text-gray-500 text-sm mb-4 italic">
                 "데이터는 사실을 말하고, AI는 의미를 부여하며, 나는 가치를 창조한다."
@@ -221,7 +227,7 @@
     </div>
 
     <script>
-        // Data (모든 요구사항 반영된 데이터)
+        // Data
         const assignments = [
             { 
                 id: '01', 
@@ -237,7 +243,13 @@
                 summary: '데이터 속의 의미를 찾아내고 AI 스토리북 도구를 활용해 시각적 서사로 재구성하는 실무 프로젝트',
                 link: './03/index.html'
             },
-            { id: '03', title: '생성형 AI 스토리텔링', tool: 'Claude', summary: 'AI와 협업하여 창의적인 시나리오를 작성하고 세계관을 구축하는 프로젝트' },
+            { 
+                id: '03', 
+                title: '웹 기술의 이해', 
+                tool: 'GEMINI Storybook', 
+                summary: 'HTML, CSS, JS의 기초를 학습하고 생성형 AI를 활용하여 인터랙티브한 웹 콘텐츠를 직접 제작하는 실습',
+                link: './04/index.html'
+            },
             { id: '04', title: 'AI 윤리와 저작권 탐구', tool: 'Research', summary: 'AI 시대의 윤리적 쟁점과 데이터 저작권에 대한 비판적 사고 보고서' },
             { id: '05', title: '이미지 생성형 모델 활용', tool: 'Midjourney', summary: '텍스트 프롬프트를 활용해 고퀄리티의 시각 자료를 제작하는 프로세스' },
             { id: '06', title: '자동화 워크플로우 설계', tool: 'Make.com', summary: '반복적인 업무를 AI로 자동화하여 생산성을 높이는 시스템 구축' },
@@ -247,19 +259,19 @@
             { id: '10', title: '최종 프로젝트: 데이터 투 스토리', tool: 'Mixed Tools', summary: '한 학기 동안 배운 기술을 총동원하여 완성한 데이터 기반 스토리텔링' }
         ];
 
-        // Render Cards with 3-4-3 layout logic
+        // Render Cards
         const grid = document.getElementById('portfolio-grid');
         assignments.forEach((item, index) => {
             const card = document.createElement('div');
             
+            // 3-4-3 layout logic
             let colSpanClass = 'md:col-span-4';
             if (index >= 3 && index <= 6) {
                 colSpanClass = 'md:col-span-3';
             }
 
-            card.className = `card-hover group relative glass rounded-3xl p-6 md:p-8 transition-all duration-500 cursor-pointer overflow-hidden col-span-1 ${colSpanClass}`;
+            card.className = `card-hover group relative glass rounded-3xl p-6 md:p-8 transition-all duration-500 cursor-pointer overflow-hidden col-span-1 ${colSpanClass} reveal`;
             
-            // Link section (버튼 및 플러스 아이콘)
             const linkHtml = item.link ? `
                 <div class="mt-8 flex items-center justify-between border-t border-black/5 dark:border-white/5 pt-6">
                     <a href="${item.link}" class="flex items-center gap-2 text-sm font-bold text-purple-600 dark:text-purple-400 hover:text-blue-500 transition-colors group/btn">
@@ -274,30 +286,26 @@
 
             card.innerHTML = `
                 <div class="flex justify-between items-start mb-8">
-                    <!-- Big ID Number 강조 -->
-                    <span class="text-4xl md:text-5xl font-black bg-gradient-to-br from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent opacity-90 group-hover:opacity-100 transition-opacity">
+                    <span class="text-4xl md:text-5xl font-black bg-gradient-to-br from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent opacity-90 group-hover:opacity-100 transition-opacity font-sans">
                         ${item.id}
                     </span>
                     <div class="p-2.5 bg-black/5 dark:bg-white/5 rounded-2xl text-blue-600 dark:text-blue-400 group-hover:text-purple-500 transition-colors">
                         <i data-lucide="zap" class="w-5 h-5 md:w-6 md:h-6"></i>
                     </div>
                 </div>
-
-                <h3 class="text-xl md:text-2xl font-bold mb-4 group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors leading-tight">${item.title}</h3>
-                <p class="text-sm md:text-base text-gray-500 dark:text-gray-400 leading-relaxed mb-8">${item.summary}</p>
-                
+                <h3 class="text-xl md:text-2xl font-bold mb-4 group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors leading-tight font-sans">${item.title}</h3>
+                <p class="text-sm md:text-base text-gray-500 dark:text-gray-400 leading-relaxed mb-8 font-sans">${item.summary}</p>
                 <div class="flex items-center">
-                    <div class="px-3 md:px-4 py-1 md:py-1.5 bg-black/5 dark:bg-white/5 rounded-full text-[10px] md:text-xs font-bold text-gray-500 dark:text-gray-300 border border-black/5 dark:border-white/5 uppercase tracking-widest">
+                    <div class="px-3 md:px-4 py-1 md:py-1.5 bg-black/5 dark:bg-white/5 rounded-full text-[10px] md:text-xs font-bold text-gray-500 dark:text-gray-300 border border-black/5 dark:border-white/5 uppercase tracking-widest font-sans text-center">
                         ${item.tool}
                     </div>
                 </div>
-
                 ${linkHtml}
             `;
             grid.appendChild(card);
         });
 
-        // Theme Toggle Logic
+        // Theme Toggle
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
         const html = document.documentElement;
@@ -315,30 +323,25 @@
             lucide.createIcons();
         });
 
-        // Initial Theme Load
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'light') {
             html.classList.remove('dark');
             themeIcon.setAttribute('data-lucide', 'sun');
         }
 
-        // Initialize Icons
+        // Initialize Lucide Icons
         lucide.createIcons();
 
-        // Reveal on scroll
+        // Reveal Animation on Scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('opacity-100', 'translate-y-0');
-                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    entry.target.classList.add('active');
                 }
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('section, header').forEach(el => {
-            el.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
-            observer.observe(el);
-        });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
