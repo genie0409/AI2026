@@ -53,7 +53,7 @@
             box-shadow: 8px 8px 0px rgba(197, 160, 89, 0.15);
         }
 
-        /* 챕터 3 대출증 스타일 (고정) */
+        /* 챕터 3 대출증 스타일 */
         .loan-card {
             background-color: #fffdec;
             background-image: radial-gradient(#d1d1d1 0.5px, transparent 0.5px);
@@ -119,7 +119,7 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
-        /* [입장 모달 - 배경 이미지 적용] */
+        /* 입장 모달 배경 이미지 */
         #welcome-overlay {
             position: fixed;
             inset: 0;
@@ -143,6 +143,33 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
+        /* 영상 모달 스타일 */
+        #video-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .ink-text {
+            color: var(--library-burgundy);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -157,7 +184,7 @@
 </head>
 <body class="overflow-x-hidden">
 
-    <!-- [입장 모달 - 고정] -->
+    <!-- [입장 모달] -->
     <div id="welcome-overlay">
         <div class="welcome-content shadow-2xl">
             <div class="mb-6">
@@ -172,12 +199,12 @@
         </div>
     </div>
 
-    <!-- 배경음악 (고정) -->
+    <!-- 배경음악 -->
     <audio id="bgm" loop>
         <source src="./bgm.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- 상단 네비게이션 (고정) -->
+    <!-- 네비게이션 -->
     <nav class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3 whitespace-nowrap">
@@ -199,7 +226,7 @@
         </div>
     </nav>
 
-    <!-- 히어로 섹션 (고정) -->
+    <!-- 히어로 섹션 -->
     <section class="bookshelf-bg min-h-screen flex items-center justify-center text-white px-6 text-center">
         <div class="max-w-4xl">
             <p class="text-[#c5a059] font-bold tracking-[0.4em] mb-4 uppercase text-sm">Library & Information Science</p>
@@ -216,15 +243,15 @@
         </div>
     </section>
 
-    <!-- [1] 관심사와 강점 (LOCKED) -->
+    <!-- [1] 관심사와 강점 -->
     <section id="about" class="py-24 px-6 bg-[#fdfaf6]">
         <div class="max-w-6xl mx-auto">
             <div class="flex flex-col md:flex-row gap-16 items-center mb-16">
                 <div class="w-full md:w-2/5 reveal">
-                    <div class="relative group cursor-pointer" onclick="window.open('./interest_strength.jpg', '_blank')">
+                    <div class="relative group cursor-pointer" onclick="window.open('./interest_strength.png', '_blank')">
                         <div class="absolute -inset-2 bg-[#c5a059] opacity-20 group-hover:opacity-40 transition rounded-xl"></div>
-                        <img src="./interest_strength.jpg" alt="나의 관심사와 강점" class="relative rounded-xl shadow-2xl transition duration-500 group-hover:brightness-75" 
-                             onerror="this.src='https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1000'">
+                        <img src="./interest_strength.png" alt="나의 관심사와 강점" class="relative rounded-xl shadow-2xl transition duration-500 group-hover:brightness-75" 
+                             onerror="this.src='https://placehold.co/800x600/f3f4f6/c5a059?text=Image+Not+Found'">
                         <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white">
                             <i data-lucide="zoom-in" class="w-10 h-10"></i>
                         </div>
@@ -276,7 +303,7 @@
         </div>
     </section>
 
-    <!-- [2] 문헌정보학이란? (LOCKED) -->
+    <!-- [2] 문헌정보학이란? -->
     <section id="major" class="py-24 px-6 bg-white border-y border-gray-100">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16 reveal">
@@ -286,7 +313,9 @@
             <div class="mb-20 reveal" style="transition-delay: 200ms;">
                 <div class="library-card p-2 rounded-xl overflow-hidden shadow-2xl bg-gray-50">
                     <div class="aspect-video bg-black">
-                        <video controls class="w-full h-full"><source src="./major_intro.mp4" type="video/mp4"></video>
+                        <video id="major-video" controls class="w-full h-full">
+                            <source src="./major_intro.mp4" type="video/mp4">
+                        </video>
                     </div>
                 </div>
             </div>
@@ -310,7 +339,7 @@
         </div>
     </section>
 
-    <!-- [3] 사서의 미래 (LOCKED) -->
+    <!-- [3] 사서의 미래 -->
     <section id="future" class="py-24 px-6 bg-[#4a0404] text-white">
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
@@ -383,7 +412,7 @@
         </div>
     </section>
 
-    <!-- [4] 최근 통계자료 (LOCKED) -->
+    <!-- [4] 최근 통계자료 -->
     <section id="data" class="pt-24 pb-12 px-6 bg-[#fdfaf6]">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16 reveal">
@@ -426,7 +455,7 @@
         </div>
     </section>
 
-    <!-- [5] 나의 진로 (11페이지 사진 스토리북 및 영상 팝업) -->
+    <!-- [5] 나의 진로 -->
     <section id="career" class="py-32 px-6 bg-white overflow-hidden text-center">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16 reveal">
@@ -436,25 +465,21 @@
             </div>
             
             <div class="storybook-container relative mx-auto max-w-5xl">
-                <!-- 스토리북 본체 -->
                 <div id="storybook" class="storybook-page flex flex-col md:flex-row items-stretch overflow-hidden bg-white text-left">
-                    <!-- 왼쪽: 스토리북 사진 영역 -->
+                    <!-- 스토리북 사진 영역 -->
                     <div class="w-full md:w-1/2 bg-gray-100 flex items-center justify-center border-r border-gray-100 relative overflow-hidden">
                         <div id="page-visual-container" class="w-full h-full flex items-center justify-center page-content-transition">
-                            <!-- 여기에 사진이 동적으로 교체됨 -->
                             <img id="page-photo" src="" alt="Storybook Page" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/f3f4f6/c5a059?text=Image+Not+Found'">
                         </div>
                         <div class="absolute bottom-6 left-6 text-[10px] font-black text-white/70 bg-black/20 px-2 py-1 rounded backdrop-blur-sm uppercase tracking-widest">Archive Vision 2026</div>
                     </div>
                     
-                    <!-- 오른쪽: 페이지 텍스트 -->
+                    <!-- 스토리북 텍스트 영역 -->
                     <div class="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-between bg-[#fff]">
                         <div id="page-text-container" class="page-content-transition">
                             <span id="page-number" class="text-[#c5a059] font-bold text-xs uppercase tracking-widest mb-4 block italic">Cover Page</span>
                             <h3 id="page-title" class="text-2xl md:text-3xl font-bold ink-text mb-8">로딩 중...</h3>
-                            <p id="page-description" class="text-gray-600 leading-relaxed text-justify text-lg">
-                                스토리북 데이터를 불러오고 있습니다.
-                            </p>
+                            <p id="page-description" class="text-gray-600 leading-relaxed text-justify text-lg"></p>
                         </div>
                         
                         <div class="pt-12 flex items-center justify-between">
@@ -471,23 +496,20 @@
                     </div>
                 </div>
 
-                <!-- 영상 보기 버튼 및 스토리북 출처 -->
                 <div class="mt-12 reveal" style="transition-delay: 300ms;">
                     <button id="open-video-btn" class="inline-flex items-center gap-3 px-10 py-5 bg-[#4a0404] text-[#c5a059] font-bold rounded-full hover:bg-black transition-all shadow-xl hover:scale-105 active:scale-95 mb-8">
                         <i data-lucide="clapperboard"></i>
                         <span>스토리북 영상으로 보기</span>
                     </button>
-                    <p class="text-[11px] text-gray-400 font-medium italic tracking-wide">
-                        Gemini Storybook을 이용하여 제작됨
-                    </p>
+                    <p class="text-[11px] text-gray-400 font-medium italic tracking-wide">Gemini Storybook을 이용하여 제작됨</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 영상 팝업 모달 -->
-    <div id="video-modal" class="fixed inset-0 z-[200] bg-black/90 hidden items-center justify-center p-4 md:p-10">
-        <div class="modal-content w-full max-w-5xl">
+    <div id="video-modal">
+        <div class="modal-content w-full max-w-5xl relative">
             <button id="close-modal" class="absolute -top-14 right-0 text-white flex items-center gap-2 hover:text-[#c5a059] transition group">
                 <span class="text-xs uppercase font-bold tracking-[0.2em] group-hover:translate-x-[-5px] transition-transform">Close Player</span>
                 <i data-lucide="x" class="w-7 h-7"></i>
@@ -495,7 +517,6 @@
             <div class="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                 <video id="modal-video" controls class="w-full h-full">
                     <source src="./storybook_video.mp4" type="video/mp4">
-                    영상을 재생할 수 없는 환경입니다.
                 </video>
             </div>
         </div>
@@ -538,6 +559,13 @@
             updateBgmIcon();
         });
 
+        // 챕터 2 영상 제어 로직
+        const majorVideo = document.getElementById('major-video');
+        majorVideo.addEventListener('play', () => {
+            if (isBgmPlaying) { bgm.pause(); isBgmPlaying = false; updateBgmIcon(); }
+            if (isPodcastPlaying) { podcastAudio.pause(); isPodcastPlaying = false; micIcon.setAttribute('data-lucide', 'mic'); lucide.createIcons(); }
+        });
+
         // 팟캐스트 로직
         const podcastAudio = document.getElementById('podcast-audio');
         const podcastPlayBtn = document.getElementById('podcast-play-btn');
@@ -553,17 +581,13 @@
             return `${mins}:${secs < 10 ? '0'+secs : secs}`;
         }
 
-        podcastAudio.addEventListener('loadedmetadata', () => {
-            podcastTime.innerText = `0:00 / ${formatTime(podcastAudio.duration)}`;
-        });
+        podcastAudio.addEventListener('loadedmetadata', () => { podcastTime.innerText = `0:00 / ${formatTime(podcastAudio.duration)}`; });
 
         podcastPlayBtn.addEventListener('click', () => {
-            if (isPodcastPlaying) {
-                podcastAudio.pause();
-                micIcon.setAttribute('data-lucide', 'mic');
-                isPodcastPlaying = false;
-            } else {
+            if (isPodcastPlaying) { podcastAudio.pause(); micIcon.setAttribute('data-lucide', 'mic'); isPodcastPlaying = false; } 
+            else {
                 if (isBgmPlaying) { bgm.pause(); isBgmPlaying = false; updateBgmIcon(); }
+                if (!majorVideo.paused) majorVideo.pause();
                 podcastAudio.play();
                 micIcon.setAttribute('data-lucide', 'pause');
                 isPodcastPlaying = true;
@@ -584,33 +608,13 @@
                 type: 'line',
                 data: {
                     labels: ['2020', '2021', '2022', '2023', '2024'],
-                    datasets: [{
-                        label: '도서관 수 (개)',
-                        data: [1172, 1208, 1236, 1271, 1296],
-                        borderColor: '#c5a059',
-                        backgroundColor: 'rgba(197, 160, 89, 0.1)',
-                        borderWidth: 3, fill: true, tension: 0.4, yAxisID: 'y'
-                    }, {
-                        label: '사서 수 (명)',
-                        data: [7565, 7636, 7935, 8274, 8768],
-                        borderColor: '#4a0404',
-                        backgroundColor: 'transparent',
-                        borderWidth: 3, borderDash: [5, 5], tension: 0.4, yAxisID: 'y1'
-                    }]
+                    datasets: [{ label: '도서관 수 (개)', data: [1172, 1208, 1236, 1271, 1296], borderColor: '#c5a059', backgroundColor: 'rgba(197, 160, 89, 0.1)', borderWidth: 3, fill: true, tension: 0.4, yAxisID: 'y' }, { label: '사서 수 (명)', data: [7565, 7636, 7935, 8274, 8768], borderColor: '#4a0404', backgroundColor: 'transparent', borderWidth: 3, borderDash: [5, 5], tension: 0.4, yAxisID: 'y1' }]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    scales: {
-                        y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(0,0,0,0.05)' } },
-                        y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } }
-                    },
-                    plugins: { legend: { display: false } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(0,0,0,0.05)' } }, y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } } }, plugins: { legend: { display: false } } }
             });
         }
 
-        // [스토리북 데이터 - 총 11페이지]
+        // 스토리북 데이터
         const storyData = [
             { number: "Cover Page", title: "규진이의 서고", description: "데이터의 바다를 항해하는 사서 일기. 이제 제가 걸어온 시간과 꿈꾸는 미래의 이야기를 시작해보려 합니다. 글쓴이: 김규진", img: "./storybook_00.png" },
             { number: "Page 01", title: "서가 사이의 평온", description: "고등학교 시절, 내게 도서관은 단순한 공부방이 아닌 유일한 안식처였습니다. 쉬는 시간마다 달려가 서가 사이를 거닐며 헝클어진 책등을 맞추는 것이 나의 소소한 기쁨이었죠. 가방에 매달린 '망그러진 곰' 키링도 그 종이 냄새가 좋은지 살짝 웃고 있는 것 같았습니다.", img: "./storybook_01.png" },
@@ -674,20 +678,8 @@
         const closeModalBtn = document.getElementById('close-modal');
         const modalVideo = document.getElementById('modal-video');
 
-        openVideoBtn.addEventListener('click', () => {
-            videoModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden'; 
-            if (isBgmPlaying) bgm.pause();
-            modalVideo.play();
-        });
-
-        closeModalBtn.addEventListener('click', () => {
-            videoModal.style.display = 'none';
-            document.body.style.overflow = ''; 
-            modalVideo.pause();
-            modalVideo.currentTime = 0;
-        });
-
+        openVideoBtn.addEventListener('click', () => { videoModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; if (isBgmPlaying) bgm.pause(); if (!majorVideo.paused) majorVideo.pause(); modalVideo.play(); });
+        closeModalBtn.addEventListener('click', () => { videoModal.style.display = 'none'; document.body.style.overflow = ''; modalVideo.pause(); modalVideo.currentTime = 0; });
         window.addEventListener('click', (e) => { if (e.target === videoModal) { videoModal.style.display = 'none'; document.body.style.overflow = ''; modalVideo.pause(); } });
 
         function reveal() {
