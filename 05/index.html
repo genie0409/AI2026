@@ -675,15 +675,51 @@
             else { window.location.hash = "#career"; }
         });
 
-        // 영상 모달 로직
+        // 영상 모달 로직 (배경음악 및 팟캐스트/영상 정지 로직 포함)
         const videoModal = document.getElementById('video-modal');
         const openVideoBtn = document.getElementById('open-video-btn');
         const closeModalBtn = document.getElementById('close-modal');
         const modalVideo = document.getElementById('modal-video');
 
-        openVideoBtn.addEventListener('click', () => { videoModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; if (isBgmPlaying) bgm.pause(); if (!majorVideo.paused) majorVideo.pause(); modalVideo.play(); });
-        closeModalBtn.addEventListener('click', () => { videoModal.style.display = 'none'; document.body.style.overflow = ''; modalVideo.pause(); modalVideo.currentTime = 0; });
-        window.addEventListener('click', (e) => { if (e.target === videoModal) { videoModal.style.display = 'none'; document.body.style.overflow = ''; modalVideo.pause(); } });
+        openVideoBtn.addEventListener('click', () => { 
+            videoModal.style.display = 'flex'; 
+            document.body.style.overflow = 'hidden'; 
+            
+            // 1. 배경음악 정지 및 아이콘 동기화
+            if (isBgmPlaying) { 
+                bgm.pause(); 
+                isBgmPlaying = false; 
+                updateBgmIcon(); 
+            } 
+            
+            // 2. 챕터 2 영상 정지
+            if (!majorVideo.paused) majorVideo.pause(); 
+            
+            // 3. 팟캐스트 정지 및 아이콘 동기화
+            if (isPodcastPlaying) {
+                podcastAudio.pause();
+                isPodcastPlaying = false;
+                micIcon.setAttribute('data-lucide', 'mic');
+                lucide.createIcons();
+            }
+
+            modalVideo.play(); 
+        });
+
+        closeModalBtn.addEventListener('click', () => { 
+            videoModal.style.display = 'none'; 
+            document.body.style.overflow = ''; 
+            modalVideo.pause(); 
+            modalVideo.currentTime = 0; 
+        });
+
+        window.addEventListener('click', (e) => { 
+            if (e.target === videoModal) { 
+                videoModal.style.display = 'none'; 
+                document.body.style.overflow = ''; 
+                modalVideo.pause(); 
+            } 
+        });
 
         function reveal() {
             const reveals = document.querySelectorAll(".reveal");
