@@ -455,7 +455,7 @@
         </div>
     </section>
 
-    <!-- [5] 나의 진로 -->
+    <!-- [5] 나의 진로 (11페이지 사진 스토리북 및 영상 팝업) -->
     <section id="career" class="py-32 px-6 bg-white overflow-hidden text-center">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16 reveal">
@@ -465,8 +465,9 @@
             </div>
             
             <div class="storybook-container relative mx-auto max-w-5xl">
+                <!-- 스토리북 본체 -->
                 <div id="storybook" class="storybook-page flex flex-col md:flex-row items-stretch overflow-hidden bg-white text-left">
-                    <!-- 스토리북 사진 영역 -->
+                    <!-- 왼쪽: 스토리북 사진 영역 -->
                     <div class="w-full md:w-1/2 bg-gray-100 flex items-center justify-center border-r border-gray-100 relative overflow-hidden">
                         <div id="page-visual-container" class="w-full h-full flex items-center justify-center page-content-transition">
                             <img id="page-photo" src="" alt="Storybook Page" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/f3f4f6/c5a059?text=Image+Not+Found'">
@@ -474,7 +475,7 @@
                         <div class="absolute bottom-6 left-6 text-[10px] font-black text-white/70 bg-black/20 px-2 py-1 rounded backdrop-blur-sm uppercase tracking-widest">Archive Vision 2026</div>
                     </div>
                     
-                    <!-- 스토리북 텍스트 영역 -->
+                    <!-- 오른쪽: 페이지 텍스트 -->
                     <div class="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-between bg-[#fff]">
                         <div id="page-text-container" class="page-content-transition">
                             <span id="page-number" class="text-[#c5a059] font-bold text-xs uppercase tracking-widest mb-4 block italic">Cover Page</span>
@@ -496,6 +497,7 @@
                     </div>
                 </div>
 
+                <!-- 영상 보기 버튼 및 스토리북 출처 -->
                 <div class="mt-12 reveal" style="transition-delay: 300ms;">
                     <button id="open-video-btn" class="inline-flex items-center gap-3 px-10 py-5 bg-[#4a0404] text-[#c5a059] font-bold rounded-full hover:bg-black transition-all shadow-xl hover:scale-105 active:scale-95 mb-8">
                         <i data-lucide="clapperboard"></i>
@@ -516,7 +518,8 @@
             </button>
             <div class="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                 <video id="modal-video" controls class="w-full h-full">
-                    <source src="./storybook_video.mp4" type="video/mp4">
+                    <!-- 요청하신 파일명 "./storybook.mp4"로 수정 완료 -->
+                    <source src="./storybook.mp4" type="video/mp4">
                 </video>
             </div>
         </div>
@@ -610,7 +613,7 @@
                     labels: ['2020', '2021', '2022', '2023', '2024'],
                     datasets: [{ label: '도서관 수 (개)', data: [1172, 1208, 1236, 1271, 1296], borderColor: '#c5a059', backgroundColor: 'rgba(197, 160, 89, 0.1)', borderWidth: 3, fill: true, tension: 0.4, yAxisID: 'y' }, { label: '사서 수 (명)', data: [7565, 7636, 7935, 8274, 8768], borderColor: '#4a0404', backgroundColor: 'transparent', borderWidth: 3, borderDash: [5, 5], tension: 0.4, yAxisID: 'y1' }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(0,0,0,0.05)' } }, y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } } }, plugins: { legend: { display: false } } }
+                options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, scales: { y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(0,0,0,0.05)' } }, y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } } }, plugins: { legend: { display: false } } }
             });
         }
 
@@ -672,7 +675,7 @@
             else { window.location.hash = "#career"; }
         });
 
-        // 영상 모달
+        // 영상 모달 로직
         const videoModal = document.getElementById('video-modal');
         const openVideoBtn = document.getElementById('open-video-btn');
         const closeModalBtn = document.getElementById('close-modal');
