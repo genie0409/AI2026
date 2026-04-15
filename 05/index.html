@@ -541,17 +541,17 @@
         const welcomeOverlay = document.getElementById('welcome-overlay');
         const enterBtn = document.getElementById('enter-btn');
 
-        // BGM 상태 업데이트 통합 함수
-        function updateBgmIcon() {
-            // 오디오의 실제 일시정지 여부에 따라 아이콘을 동기화합니다.
+        // [오디오 아이콘 동기화 핵심 로직]
+        // 오디오 객체의 실제 상태를 감시하여 아이콘을 업데이트합니다.
+        function syncBgmIcon() {
             const iconName = bgm.paused ? 'volume-x' : 'volume-2';
             bgmIcon.setAttribute('data-lucide', iconName);
             lucide.createIcons();
         }
 
-        // 오디오 이벤트 리스너 등록 (가장 확실한 동기화 방법)
-        bgm.onplay = updateBgmIcon;
-        bgm.onpause = updateBgmIcon;
+        // 오디오 이벤트 리스너 등록
+        bgm.addEventListener('play', syncBgmIcon);
+        bgm.addEventListener('pause', syncBgmIcon);
 
         enterBtn.addEventListener('click', () => {
             bgm.play().catch(e => console.log("BGM Play failed:", e));
@@ -570,8 +570,13 @@
         // 챕터 2 영상 제어
         const majorVideo = document.getElementById('major-video');
         majorVideo.addEventListener('play', () => {
-            bgm.pause();
-            if (isPodcastPlaying) { podcastAudio.pause(); isPodcastPlaying = false; micIcon.setAttribute('data-lucide', 'mic'); lucide.createIcons(); }
+            bgm.pause(); // 영상 재생 시 BGM 일시정지 (리스너에 의해 아이콘도 자동 변경됨)
+            if (isPodcastPlaying) { 
+                podcastAudio.pause(); 
+                isPodcastPlaying = false; 
+                micIcon.setAttribute('data-lucide', 'mic'); 
+                lucide.createIcons(); 
+            }
         });
 
         // 팟캐스트 로직
@@ -597,7 +602,7 @@
                 micIcon.setAttribute('data-lucide', 'mic'); 
                 isPodcastPlaying = false; 
             } else {
-                bgm.pause();
+                bgm.pause(); // 팟캐스트 시작 시 BGM 일시정지
                 if (!majorVideo.paused) majorVideo.pause();
                 podcastAudio.play();
                 micIcon.setAttribute('data-lucide', 'pause');
@@ -692,7 +697,7 @@
         openVideoBtn.addEventListener('click', () => { 
             videoModal.style.display = 'flex'; 
             document.body.style.overflow = 'hidden'; 
-            bgm.pause(); // BGM 정지
+            bgm.pause(); // 영상 팝업 시 BGM 정지
             if (!majorVideo.paused) majorVideo.pause(); 
             if (isPodcastPlaying) { podcastAudio.pause(); isPodcastPlaying = false; micIcon.setAttribute('data-lucide', 'mic'); lucide.createIcons(); }
             modalVideo.play(); 
