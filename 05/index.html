@@ -212,7 +212,10 @@
                     <i data-lucide="home" class="text-[#c5a059] w-6 h-6"></i>
                 </a>
                 <button id="bgm-toggle" class="flex items-center justify-center p-1 hover:bg-gray-100 rounded-md transition-colors mr-2" title="배경음악 켜기/끄기">
-                    <i id="bgm-icon" data-lucide="volume-x" class="text-[#c5a059] w-6 h-6"></i>
+                    <!-- 아이콘이 생성될 컨테이너 -->
+                    <span id="bgm-icon-container">
+                        <i data-lucide="volume-x" class="text-[#c5a059] w-6 h-6"></i>
+                    </span>
                 </button>
                 <span class="hidden sm:inline font-bold text-lg tracking-tight ink-text">중간과제: 나와 문헌정보학의 이야기</span>
             </div>
@@ -534,22 +537,26 @@
     </footer>
 
     <script>
+        // 초기 아이콘 생성
         lucide.createIcons();
+
         const bgm = document.getElementById('bgm');
         const bgmToggle = document.getElementById('bgm-toggle');
-        const bgmIcon = document.getElementById('bgm-icon');
+        const bgmIconContainer = document.getElementById('bgm-icon-container');
         const welcomeOverlay = document.getElementById('welcome-overlay');
         const enterBtn = document.getElementById('enter-btn');
 
-        // [오디오 아이콘 동기화 핵심 로직]
-        // 오디오 객체의 실제 상태를 감시하여 아이콘을 업데이트합니다.
+        // [핵심 수정: 아이콘 동기화 로직]
+        // Lucide가 <i> 태그를 <svg>로 바꾸기 때문에, 아예 컨테이너 내부를 새로 써주는 방식이 가장 안전합니다.
         function syncBgmIcon() {
             const iconName = bgm.paused ? 'volume-x' : 'volume-2';
-            bgmIcon.setAttribute('data-lucide', iconName);
+            // 버튼 내부를 새로운 아이콘 태그로 교체
+            bgmIconContainer.innerHTML = `<i data-lucide="${iconName}" class="text-[#c5a059] w-6 h-6"></i>`;
+            // Lucide에게 새로 생긴 태그를 그리라고 명령
             lucide.createIcons();
         }
 
-        // 오디오 이벤트 리스너 등록
+        // BGM 재생/정지 상태가 변할 때마다 무조건 아이콘 동기화 실행
         bgm.addEventListener('play', syncBgmIcon);
         bgm.addEventListener('pause', syncBgmIcon);
 
@@ -570,7 +577,7 @@
         // 챕터 2 영상 제어
         const majorVideo = document.getElementById('major-video');
         majorVideo.addEventListener('play', () => {
-            bgm.pause(); // 영상 재생 시 BGM 일시정지 (리스너에 의해 아이콘도 자동 변경됨)
+            bgm.pause(); 
             if (isPodcastPlaying) { 
                 podcastAudio.pause(); 
                 isPodcastPlaying = false; 
@@ -602,7 +609,7 @@
                 micIcon.setAttribute('data-lucide', 'mic'); 
                 isPodcastPlaying = false; 
             } else {
-                bgm.pause(); // 팟캐스트 시작 시 BGM 일시정지
+                bgm.pause(); 
                 if (!majorVideo.paused) majorVideo.pause();
                 podcastAudio.play();
                 micIcon.setAttribute('data-lucide', 'pause');
@@ -626,7 +633,7 @@
                     labels: ['2020', '2021', '2022', '2023', '2024'],
                     datasets: [{ label: '도서관 수 (개)', data: [1172, 1208, 1236, 1271, 1296], borderColor: '#c5a059', backgroundColor: 'rgba(197, 160, 89, 0.1)', borderWidth: 3, fill: true, tension: 0.4, yAxisID: 'y' }, { label: '사서 수 (명)', data: [7565, 7636, 7935, 8274, 8768], borderColor: '#4a0404', backgroundColor: 'transparent', borderWidth: 3, borderDash: [5, 5], tension: 0.4, yAxisID: 'y1' }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, scales: { y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(0,0,0,0.05)' } }, y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } } }, plugins: { legend: { display: false } } }
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { type: 'linear', display: true, position: 'left', grid: { color: 'rgba(0,0,0,0.05)' } }, y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } } }, plugins: { legend: { display: false } } }
             });
         }
 
@@ -697,7 +704,7 @@
         openVideoBtn.addEventListener('click', () => { 
             videoModal.style.display = 'flex'; 
             document.body.style.overflow = 'hidden'; 
-            bgm.pause(); // 영상 팝업 시 BGM 정지
+            bgm.pause(); // BGM 정지 시 이벤트 리스너가 아이콘을 자동으로 X로 바꿉니다.
             if (!majorVideo.paused) majorVideo.pause(); 
             if (isPodcastPlaying) { podcastAudio.pause(); isPodcastPlaying = false; micIcon.setAttribute('data-lucide', 'mic'); lucide.createIcons(); }
             modalVideo.play(); 
