@@ -455,7 +455,7 @@
         </div>
     </section>
 
-    <!-- [5] 나의 진로 (11페이지 사진 스토리북 및 영상 팝업) -->
+    <!-- [5] 나의 진로 -->
     <section id="career" class="py-32 px-6 bg-white overflow-hidden text-center">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16 reveal">
@@ -465,9 +465,8 @@
             </div>
             
             <div class="storybook-container relative mx-auto max-w-5xl">
-                <!-- 스토리북 본체 -->
                 <div id="storybook" class="storybook-page flex flex-col md:flex-row items-stretch overflow-hidden bg-white text-left">
-                    <!-- 왼쪽: 스토리북 사진 영역 -->
+                    <!-- 스토리북 사진 영역 -->
                     <div class="w-full md:w-1/2 bg-gray-100 flex items-center justify-center border-r border-gray-100 relative overflow-hidden">
                         <div id="page-visual-container" class="w-full h-full flex items-center justify-center page-content-transition">
                             <img id="page-photo" src="" alt="Storybook Page" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/f3f4f6/c5a059?text=Image+Not+Found'">
@@ -475,7 +474,7 @@
                         <div class="absolute bottom-6 left-6 text-[10px] font-black text-white/70 bg-black/20 px-2 py-1 rounded backdrop-blur-sm uppercase tracking-widest">Archive Vision 2026</div>
                     </div>
                     
-                    <!-- 오른쪽: 페이지 텍스트 -->
+                    <!-- 스토리북 텍스트 영역 -->
                     <div class="w-full md:w-1/2 p-10 md:p-16 flex flex-col justify-between bg-[#fff]">
                         <div id="page-text-container" class="page-content-transition">
                             <span id="page-number" class="text-[#c5a059] font-bold text-xs uppercase tracking-widest mb-4 block italic">Cover Page</span>
@@ -497,7 +496,6 @@
                     </div>
                 </div>
 
-                <!-- 영상 보기 버튼 및 스토리북 출처 -->
                 <div class="mt-12 reveal" style="transition-delay: 300ms;">
                     <button id="open-video-btn" class="inline-flex items-center gap-3 px-10 py-5 bg-[#4a0404] text-[#c5a059] font-bold rounded-full hover:bg-black transition-all shadow-xl hover:scale-105 active:scale-95 mb-8">
                         <i data-lucide="clapperboard"></i>
@@ -518,7 +516,6 @@
             </button>
             <div class="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                 <video id="modal-video" controls class="w-full h-full">
-                    <!-- 요청하신 파일명 "./storybook.mp4"로 수정 완료 -->
                     <source src="./storybook.mp4" type="video/mp4">
                 </video>
             </div>
@@ -543,29 +540,37 @@
         const bgmIcon = document.getElementById('bgm-icon');
         const welcomeOverlay = document.getElementById('welcome-overlay');
         const enterBtn = document.getElementById('enter-btn');
-        let isBgmPlaying = false;
 
+        // BGM 상태 업데이트 통합 함수
         function updateBgmIcon() {
-            bgmIcon.setAttribute('data-lucide', isBgmPlaying ? 'volume-2' : 'volume-x');
+            // 오디오의 실제 일시정지 여부에 따라 아이콘을 동기화합니다.
+            const iconName = bgm.paused ? 'volume-x' : 'volume-2';
+            bgmIcon.setAttribute('data-lucide', iconName);
             lucide.createIcons();
         }
 
+        // 오디오 이벤트 리스너 등록 (가장 확실한 동기화 방법)
+        bgm.onplay = updateBgmIcon;
+        bgm.onpause = updateBgmIcon;
+
         enterBtn.addEventListener('click', () => {
-            bgm.play().then(() => { isBgmPlaying = true; updateBgmIcon(); }).catch(e => console.log("BGM Play failed."));
+            bgm.play().catch(e => console.log("BGM Play failed:", e));
             welcomeOverlay.style.opacity = '0';
             setTimeout(() => { welcomeOverlay.style.visibility = 'hidden'; }, 1000);
         });
 
         bgmToggle.addEventListener('click', () => {
-            if (isBgmPlaying) { bgm.pause(); isBgmPlaying = false; }
-            else { bgm.play(); isBgmPlaying = true; }
-            updateBgmIcon();
+            if (bgm.paused) {
+                bgm.play().catch(e => console.log("BGM Play failed:", e));
+            } else {
+                bgm.pause();
+            }
         });
 
-        // 챕터 2 영상 제어 로직
+        // 챕터 2 영상 제어
         const majorVideo = document.getElementById('major-video');
         majorVideo.addEventListener('play', () => {
-            if (isBgmPlaying) { bgm.pause(); isBgmPlaying = false; updateBgmIcon(); }
+            bgm.pause();
             if (isPodcastPlaying) { podcastAudio.pause(); isPodcastPlaying = false; micIcon.setAttribute('data-lucide', 'mic'); lucide.createIcons(); }
         });
 
@@ -587,9 +592,12 @@
         podcastAudio.addEventListener('loadedmetadata', () => { podcastTime.innerText = `0:00 / ${formatTime(podcastAudio.duration)}`; });
 
         podcastPlayBtn.addEventListener('click', () => {
-            if (isPodcastPlaying) { podcastAudio.pause(); micIcon.setAttribute('data-lucide', 'mic'); isPodcastPlaying = false; } 
-            else {
-                if (isBgmPlaying) { bgm.pause(); isBgmPlaying = false; updateBgmIcon(); }
+            if (isPodcastPlaying) { 
+                podcastAudio.pause(); 
+                micIcon.setAttribute('data-lucide', 'mic'); 
+                isPodcastPlaying = false; 
+            } else {
+                bgm.pause();
                 if (!majorVideo.paused) majorVideo.pause();
                 podcastAudio.play();
                 micIcon.setAttribute('data-lucide', 'pause');
@@ -675,7 +683,7 @@
             else { window.location.hash = "#career"; }
         });
 
-        // 영상 모달 로직 (배경음악 및 팟캐스트/영상 정지 로직 포함)
+        // 영상 모달 로직
         const videoModal = document.getElementById('video-modal');
         const openVideoBtn = document.getElementById('open-video-btn');
         const closeModalBtn = document.getElementById('close-modal');
@@ -684,42 +692,14 @@
         openVideoBtn.addEventListener('click', () => { 
             videoModal.style.display = 'flex'; 
             document.body.style.overflow = 'hidden'; 
-            
-            // 1. 배경음악 정지 및 아이콘 동기화
-            if (isBgmPlaying) { 
-                bgm.pause(); 
-                isBgmPlaying = false; 
-                updateBgmIcon(); 
-            } 
-            
-            // 2. 챕터 2 영상 정지
+            bgm.pause(); // BGM 정지
             if (!majorVideo.paused) majorVideo.pause(); 
-            
-            // 3. 팟캐스트 정지 및 아이콘 동기화
-            if (isPodcastPlaying) {
-                podcastAudio.pause();
-                isPodcastPlaying = false;
-                micIcon.setAttribute('data-lucide', 'mic');
-                lucide.createIcons();
-            }
-
+            if (isPodcastPlaying) { podcastAudio.pause(); isPodcastPlaying = false; micIcon.setAttribute('data-lucide', 'mic'); lucide.createIcons(); }
             modalVideo.play(); 
         });
 
-        closeModalBtn.addEventListener('click', () => { 
-            videoModal.style.display = 'none'; 
-            document.body.style.overflow = ''; 
-            modalVideo.pause(); 
-            modalVideo.currentTime = 0; 
-        });
-
-        window.addEventListener('click', (e) => { 
-            if (e.target === videoModal) { 
-                videoModal.style.display = 'none'; 
-                document.body.style.overflow = ''; 
-                modalVideo.pause(); 
-            } 
-        });
+        closeModalBtn.addEventListener('click', () => { videoModal.style.display = 'none'; document.body.style.overflow = ''; modalVideo.pause(); modalVideo.currentTime = 0; });
+        window.addEventListener('click', (e) => { if (e.target === videoModal) { videoModal.style.display = 'none'; document.body.style.overflow = ''; modalVideo.pause(); } });
 
         function reveal() {
             const reveals = document.querySelectorAll(".reveal");
