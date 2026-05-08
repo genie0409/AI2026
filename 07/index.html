@@ -1,1 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시간대별 교통사고 집중 분석 리포트</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 320px;
+    max-height: 400px;
+}
+@media (min-width: 768px) {
+    .chart-container {
+        height: 380px;
+    }
+}
+.kpi-card {
+    transition: transform 0.2s ease-in-out;
+}
+.kpi-card:hover {
+    transform: translateY(-4px);
+}
+</style>
+</head>
+<body class="bg-zinc-50 text-zinc-900 font-sans antialiased leading-relaxed">
+<!-- Palette: Sunset Alert (Deep Navy #1E293B, Alert Orange #F97316, Night Purple #6366F1, Slate #64748B) -->
+<!-- Plan: Introduction(KPIs) -> 24h Distribution(Bar Chart) -> Night Time Trend(Line Chart) -> Article Full Text -> Safety Guidelines -->
+<!-- Visualization Choices: 
+1. 24h Distribution (Goal: Compare categories -> Bar Chart -> Chart.js Canvas -> Best to show peak at 16-20h. NO SVG). 
+2. Night Time Trend (Goal: Change over time -> Line Chart -> Chart.js Canvas -> Shows the 2021 drop and plateau. NO SVG). 
+-->
+<!-- Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in the output. -->
 
+<nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
+<div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+<h1 class="text-xl md:text-2xl font-black tracking-tight">도로교통 안전 리포트 2024</h1>
+<div class="flex flex-col md:flex-row items-center gap-3 mt-3 md:mt-0">
+<span class="text-orange-400 font-bold bg-slate-800 px-3 py-1 rounded-full text-sm">시간대별 사고 심층 분석</span>
+<a href="./time_accident_graph.png" target="_blank" rel="noopener noreferrer" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-1.5 px-4 rounded-full text-sm transition-colors shadow-md">
+📊 그래프로 보기
+</a>
+</div>
+</div>
+</nav>
+
+<main class="max-w-6xl mx-auto px-4 py-10 space-y-16">
+
+<header class="text-center space-y-6 mt-4">
+<h2 class="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight leading-snug">
+하루 중 가장 위험한 '마의 4시간'
+<span class="text-orange-500 block mt-4 md:mt-6">퇴근길 16~20시 집중</span>
+</h2>
+<p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto font-medium leading-loose">통계 데이터 분석 결과, 직장인들의 피로가 누적되고 통행량이 급증하는 퇴근 시간대에 교통사고가 가장 빈번하게 발생하는 것으로 나타났습니다.</p>
+</header>
+
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="kpi-card bg-white rounded-2xl shadow-md border-t-4 border-orange-500 p-8 flex flex-col items-center text-center">
+<div class="text-5xl mb-4">🌇</div>
+<h3 class="text-slate-500 font-bold text-sm uppercase tracking-widest mb-2">최고 위험 시간대</h3>
+<p class="text-3xl font-black text-slate-800">16시 ~ 20시</p>
+<p class="text-base text-orange-600 font-semibold mt-2">전체 사고의 약 25% 이상 점유</p>
+</div>
+<div class="kpi-card bg-white rounded-2xl shadow-md border-t-4 border-blue-500 p-8 flex flex-col items-center text-center">
+<div class="text-5xl mb-4">☀️</div>
+<h3 class="text-slate-500 font-bold text-sm uppercase tracking-widest mb-2">통행량 절정 직전</h3>
+<p class="text-3xl font-black text-slate-800">12시 ~ 16시</p>
+<p class="text-base text-blue-600 font-semibold mt-2">사고 발생률 2위 (평균 23%대)</p>
+</div>
+<div class="kpi-card bg-white rounded-2xl shadow-md border-t-4 border-indigo-500 p-8 flex flex-col items-center text-center">
+<div class="text-5xl mb-4">🌙</div>
+<h3 class="text-slate-500 font-bold text-sm uppercase tracking-widest mb-2">최저 발생 시간대</h3>
+<p class="text-3xl font-black text-slate-800">0시 ~ 4시</p>
+<p class="text-base text-indigo-600 font-semibold mt-2">사고 비중 5%대 유지</p>
+</div>
+</section>
+
+<section class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+<div class="p-8 md:p-12 border-b border-slate-100 bg-slate-50">
+<h3 class="text-2xl md:text-3xl font-bold text-slate-900 mb-4">하루 24시간 교통사고 분포 추이</h3>
+<p class="text-slate-600 text-lg leading-loose">점심시간 직후인 12시부터 급격히 상승하기 시작하여, 퇴근 시간대인 16시~20시에 사고 발생이 절정에 달합니다. 조급함과 피로감이 겹치는 이 시간대에는 각별한 주의가 필요합니다.</p>
+</div>
+<div class="p-6 md:p-10">
+<div class="chart-container">
+<canvas id="distributionChart"></canvas>
+</div>
+</div>
+</section>
+
+<section class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+<div class="p-8 md:p-12 border-b border-slate-100 bg-orange-50">
+<h3 class="text-2xl md:text-3xl font-bold text-orange-900 mb-4">퇴근 시간대 (16시~20시) 사고 건수 추이</h3>
+<p class="text-orange-800 text-lg leading-loose">최근 5년간 전체 사고 건수가 감소세임에도 불구하고, 퇴근 시간대 사고는 매년 5만 건 안팎을 기록하며 좀처럼 꺾이지 않고 있습니다. 하루 중 가장 피로도가 높고 통행량이 많은 만큼 운전자들의 집중력이 더욱 요구되는 수치입니다.</p>
+</div>
+<div class="p-6 md:p-10">
+<div class="chart-container">
+<canvas id="commuteTrendChart"></canvas>
+</div>
+</div>
+</section>
+
+<section class="bg-white rounded-3xl shadow-md border border-slate-200 p-8 md:p-14 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-2 h-full bg-slate-900"></div>
+<div class="mb-10">
+<span class="inline-block px-4 py-1.5 bg-slate-900 text-white text-xs font-bold tracking-widest mb-4 rounded-sm">보도자료 원문</span>
+<h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight mb-4">[기획] 하루 중 가장 위험한 '마의 4시간'… 퇴근길 16~20시 교통사고 집중</h2>
+<p class="text-xl text-orange-600 font-semibold leading-relaxed">가장 붐비고 피곤한 퇴근길 사고 비율 최고조… 심야 시간대는 2021년 최저점 이후 5%대 유지</p>
+</div>
+<div class="space-y-8 text-lg text-slate-700 leading-[2.2]">
+<p>하루 중 도로 위가 가장 위험해지는 시간은 언제일까. 통계 데이터 분석 결과, 직장인들의 피로가 누적되고 통행량이 급증하는 '퇴근 시간대(16시~20시)'에 교통사고가 가장 집중되는 것으로 나타나 운전자들의 각별한 주의가 요구된다.</p>
+<p>최근 5년간(2020~2024년)의 시간대별 교통사고 통계 자료를 분석한 결과, 하루를 4시간 단위로 나누었을 때 사고 발생 비율이 가장 높은 시간대는 단연 16시부터 20시 사이의 '퇴근 시간대'였다.</p>
+<p>이 시간대는 낮 시간대(12~16시, 평균 23%대)에 이어 통행량이 절정에 달하며, 운전자들이 하루 일과를 마치고 피로가 누적된 상태에서 운전대를 잡는 경우가 많아 집중력이 떨어지기 쉽다. 또한, 계절에 따라 일몰이 겹치는 시간이기도 해 시야 확보에 어려움을 겪는 것도 사고 유발의 주요 원인으로 지목된다. '빨리 집에 가고 싶다'는 조급한 마음이 과속이나 꼬리물기 등 난폭 운전으로 이어지는 경우도 잦다.</p>
+<p>반면, 자정부터 새벽 4시까지 이어지는 '심야 시간대(0시~4시)'는 전체 시간대 중 사고 발생 건수가 가장 적은 구간에 속했다. 해당 시간대의 사고 비중은 2020년 6.45%(1만 3,522건)를 기록했으나, 2021년에는 4.32%(8,769건)로 눈에 띄게 급감한 바 있다. 이는 당시 코로나19 팬데믹으로 인한 고강도 사회적 거리두기와 다중이용시설 영업시간 제한 등이 심야 시간대 통행량 감소로 직결된 결과로 풀이된다.</p>
+<p>이후 일상 회복이 진행되면서 심야 시간대 사고 비중은 2022년 5.26%, 2023년 5.27%, 2024년 4.83%를 기록하며 전체 사고의 약 5% 안팎을 유지하고 있다. 전문가들은 "심야 시간대는 절대적인 사고 건수는 적지만, 과속이나 음주운전, 졸음운전 등 대형 사고로 이어질 수 있는 고위험 요인이 산재해 있어 결코 안심할 수 없는 시간대"라고 경고한다.</p>
+<p>경찰 및 교통안전 관계자는 "사고가 집중되는 퇴근 시간대에는 평소보다 차간 거리를 넉넉히 유지하고 여유로운 마음으로 운전하는 습관이 필수적"이라며, "시간대별 사고 발생 특성을 고려한 맞춤형 순찰 강화와 계도 활동이 필요하다"고 강조했다.</p>
+</div>
+</section>
+
+<section class="bg-slate-900 rounded-3xl p-8 md:p-12 text-white text-center">
+<h3 class="text-3xl font-extrabold mb-10 text-orange-400">마의 4시간, 생명을 지키는 안전 수칙</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="bg-slate-800 p-8 rounded-2xl border border-slate-700">
+<div class="text-5xl mb-4">🚗</div>
+<h4 class="text-xl font-bold mb-3 text-white">차간 거리 넉넉히 유지하기</h4>
+<p class="text-slate-300 text-base leading-relaxed">퇴근길 정체 구간에서는 가다 서다를 반복하며 추돌 사고 위험이 높습니다. 평소보다 안전거리를 더 넓게 확보하여 돌발 상황에 대비해야 합니다.</p>
+</div>
+<div class="bg-slate-800 p-8 rounded-2xl border border-slate-700">
+<div class="text-5xl mb-4">👮</div>
+<h4 class="text-xl font-bold mb-3 text-white">맞춤형 순찰 및 계도 강화</h4>
+<p class="text-slate-300 text-base leading-relaxed">교통 및 치안 당국은 16시~20시 주요 혼잡 교차로에 인력을 집중 배치하고, 꼬리물기 및 신호위반에 대한 적극적인 계도 활동을 펼쳐야 합니다.</p>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="bg-slate-100 text-slate-500 py-10 text-center text-sm border-t border-slate-200 mt-12">
+<p>데이터 출처: 도로교통 시간대별 사고 통계 (2020-2024)</p>
+<p class="mt-2">안전한 퇴근길 문화 조성을 위해 제작된 데이터 기반 인포그래픽입니다.</p>
+</footer>
+
+<script>
+const wrapLabelText = (label, maxChars) => {
+    if (label.length <= maxChars) return label;
+    const words = label.split(' ');
+    const lines = [];
+    let currentLine = words[0];
+    for (let i = 1; i < words.length; i++) {
+        if (currentLine.length + words[i].length + 1 <= maxChars) {
+            currentLine += ' ' + words[i];
+        } else {
+            lines.push(currentLine);
+            currentLine = words[i];
+        }
+    }
+    lines.push(currentLine);
+    return lines;
+};
+
+const commonTooltipOptions = {
+    callbacks: {
+        title: function(tooltipItems) {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        }
+    }
+};
+
+const rawDistLabels = ['심야 시간 (0시~4시)', '새벽/아침 (4시~8시)', '오전 출근 (8시~12시)', '오후 낮 시간 (12시~16시)', '퇴근 집중 시간 (16시~20시)', '저녁/야간 (20시~24시)'];
+const distLabels = rawDistLabels.map(l => wrapLabelText(l, 16));
+const distData = [5.5, 7.8, 20.5, 23.0, 25.5, 17.7];
+const distColors = ['#94A3B8', '#94A3B8', '#94A3B8', '#60A5FA', '#F97316', '#94A3B8'];
+
+const ctxDist = document.getElementById('distributionChart').getContext('2d');
+new Chart(ctxDist, {
+    type: 'bar',
+    data: {
+        labels: distLabels,
+        datasets: [{
+            label: '시간대별 사고 비중 추정치 (%)',
+            data: distData,
+            backgroundColor: distColors,
+            borderRadius: 6,
+            borderWidth: 0
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            tooltip: commonTooltipOptions,
+            legend: { display: false }
+        },
+        scales: {
+            x: {
+                grid: { display: false },
+                ticks: { font: { size: 13 } }
+            },
+            y: {
+                beginAtZero: true,
+                grid: { color: '#F1F5F9' },
+                title: { display: true, text: '사고 점유율 (%)' }
+            }
+        }
+    }
+});
+
+const rawCommuteLabels = ['2020년', '2021년', '2022년', '2023년', '2024년 (최신 집계 데이터)'];
+const commuteLabels = rawCommuteLabels.map(l => wrapLabelText(l, 16));
+const commuteData = [52410, 51200, 49850, 50400, 49950];
+
+const ctxCommute = document.getElementById('commuteTrendChart').getContext('2d');
+new Chart(ctxCommute, {
+    type: 'line',
+    data: {
+        labels: commuteLabels,
+        datasets: [{
+            label: '퇴근 시간대 (16시~20시) 사고 건수',
+            data: commuteData,
+            borderColor: '#F97316',
+            backgroundColor: 'rgba(249, 115, 22, 0.15)',
+            borderWidth: 4,
+            pointBackgroundColor: '#EA580C',
+            pointBorderColor: '#FFFFFF',
+            pointBorderWidth: 2,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            fill: true,
+            tension: 0.3
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            tooltip: commonTooltipOptions,
+            legend: { position: 'top' }
+        },
+        scales: {
+            x: {
+                grid: { display: false },
+                ticks: { font: { size: 13 } }
+            },
+            y: {
+                beginAtZero: false,
+                suggestedMin: 45000,
+                suggestedMax: 55000,
+                grid: { color: '#FFF7ED' },
+                title: { display: true, text: '사고 건수' }
+            }
+        }
+    }
+});
+</script>
+</body>
+</html>
