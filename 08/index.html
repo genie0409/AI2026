@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Dual Soul of Busan - 해변 너머의 진짜 부산</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            scroll-behavior: smooth;
+            transition: background-color 0.5s, color 0.5s;
+        }
+        .theme-day {
+            background-color: #f0f9ff;
+            color: #0c4a6e;
+        }
+        .theme-night {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .theme-day .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .pulse-btn {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(14, 165, 233, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+        }
+        .hero-title {
+            font-size: clamp(2rem, 8vw, 5rem);
+            line-height: 1.1;
+        }
+        .section-transition {
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="theme-day overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 p-6 flex justify-between items-center transition-all duration-300" id="navbar">
+        <div class="flex items-center gap-3">
+            <!-- Home Button -->
+            <a href="../index.html" class="p-2 rounded-full hover:bg-black/5 transition-colors group" title="홈으로 이동">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:scale-110 transition-transform">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </a>
+            <div class="font-black text-2xl tracking-tighter">BUSAN SOUL</div>
+        </div>
+        <div class="flex gap-4 items-center">
+            <button id="themeToggle" class="px-6 py-2 rounded-full font-bold transition-all shadow-lg active:scale-95 bg-sky-500 text-white">
+                <span id="themeLabel">NIGHT MODE 전환</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="min-h-screen flex flex-col justify-center items-center text-center p-6 relative overflow-hidden">
+        <div id="heroBg" class="absolute inset-0 opacity-20 pointer-events-none transition-all duration-1000">
+             <div class="absolute top-20 left-10 w-64 h-64 bg-yellow-300 rounded-full blur-3xl opacity-50" id="sun"></div>
+             <div class="absolute bottom-20 right-10 w-96 h-96 bg-blue-400 rounded-full blur-3xl opacity-30"></div>
+        </div>
+        
+        <div class="z-10">
+            <p class="uppercase tracking-[0.3em] font-bold mb-4 opacity-70" id="heroSubtitle">Experience the Blue</p>
+            <h1 class="hero-title font-black mb-6 italic" id="mainTitle">THE DUAL SOUL<br>OF BUSAN</h1>
+            <p class="text-xl max-w-2xl mx-auto opacity-90 leading-relaxed mb-8">
+                화려한 해변의 낭만과 뜨거운 로컬의 삶이 공존하는 곳.<br>당신이 몰랐던 진짜 부산의 열기를 확인하세요.
+            </p>
+            <a href="#series" class="px-10 py-4 bg-current text-white rounded-full font-bold transition-all hover:opacity-80 pulse-btn inline-block" style="background-color: var(--btn-color, #0ea5e9)">
+                탐험 시작하기
+            </a>
+        </div>
+    </header>
+
+    <!-- Stats Section -->
+    <section class="py-24 px-6 max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-card p-10 rounded-3xl text-center section-transition hover:-translate-y-2">
+                <div class="text-5xl font-black mb-2 text-sky-500">300만+</div>
+                <div class="font-bold opacity-70">외국인 관광객 돌파</div>
+            </div>
+            <div class="glass-card p-10 rounded-3xl text-center section-transition hover:-translate-y-2">
+                <div class="text-5xl font-black mb-2 text-purple-500">127,065</div>
+                <div class="font-bold opacity-70">서면역 저녁 유동인구</div>
+            </div>
+            <div class="glass-card p-10 rounded-3xl text-center section-transition hover:-translate-y-2">
+                <div class="text-5xl font-black mb-2 text-pink-500">24H</div>
+                <div class="font-bold opacity-70">잠들지 않는 도시</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Series Content -->
+    <section id="series" class="py-24 px-6 space-y-32">
+        
+        <!-- Series 1 -->
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
+            <div class="flex-1 space-y-6">
+                <div class="text-sm font-bold tracking-widest text-purple-500 uppercase">Series 01</div>
+                <h2 class="text-4xl md:text-6xl font-black italic">The 127,065 Pulse</h2>
+                <p class="text-lg opacity-80 leading-relaxed">
+                    관광객들은 해운대를 찾지만, 진짜 부산 청년들은 서면으로 모입니다. 전국 1위의 저녁 유동인구를 자랑하는 서면과 전포동의 에너지를 느껴보세요. 감각적인 카페거리부터 화려한 만취길까지, 진짜 부산의 밤이 시작됩니다.
+                </p>
+                <div class="flex gap-4">
+                    <span class="px-4 py-2 border rounded-full text-xs font-bold">#서면역</span>
+                    <span class="px-4 py-2 border rounded-full text-xs font-bold">#전리단길</span>
+                    <span class="px-4 py-2 border rounded-full text-xs font-bold">#로컬바이브</span>
+                </div>
+            </div>
+            <div class="flex-1 w-full aspect-video bg-neutral-200 rounded-3xl overflow-hidden relative group">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 opacity-40 group-hover:opacity-20 transition-all"></div>
+                <div class="flex items-center justify-center h-full">
+                    <svg class="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div class="absolute bottom-6 left-6 text-white font-bold">서면역 밤거리 라이브 영상 보기</div>
+            </div>
+        </div>
+
+        <!-- Series 2 -->
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row-reverse items-center gap-12">
+            <div class="flex-1 space-y-6">
+                <div class="text-sm font-bold tracking-widest text-orange-500 uppercase">Series 02</div>
+                <h2 class="text-4xl md:text-6xl font-black italic">Beyond Sashimi</h2>
+                <p class="text-lg opacity-80 leading-relaxed">
+                    회와 어묵의 시대는 지났습니다. 전통적인 돼지국밥 노포부터 전포동의 힙한 에스프레소 바, 퓨전 다이닝까지. 입맛 까다로운 부산 로컬들이 인정한 '진짜 맛집' 지도를 공개합니다. 
+                </p>
+                <div class="flex gap-4">
+                    <span class="px-4 py-2 border rounded-full text-xs font-bold">#미식도시</span>
+                    <span class="px-4 py-2 border rounded-full text-xs font-bold">#부산맛집</span>
+                    <span class="px-4 py-2 border rounded-full text-xs font-bold">#퓨전다이닝</span>
+                </div>
+            </div>
+            <div class="flex-1 w-full aspect-square md:aspect-video bg-neutral-200 rounded-3xl overflow-hidden relative group">
+                <div class="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-500 opacity-40 group-hover:opacity-20 transition-all"></div>
+                <div class="flex items-center justify-center h-full">
+                   <svg class="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                </div>
+                <div class="absolute bottom-6 left-6 text-white font-bold">로컬 미식 가이드 다운로드</div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-32 px-6 text-center">
+        <div class="max-w-4xl mx-auto glass-card p-16 rounded-[3rem] relative overflow-hidden">
+            <div class="z-10 relative">
+                <h2 class="text-4xl md:text-5xl font-black mb-6">#MyRealBusan 챌린지</h2>
+                <p class="text-xl mb-10 opacity-80">당신만이 알고 있는 부산의 로컬 스팟을 공유해주세요.<br>우수작을 선정하여 부산 로컬 브랜드 한정판 굿즈를 드립니다.</p>
+                <button class="px-12 py-5 bg-pink-500 text-white rounded-full font-bold text-xl transition-all hover:scale-105 hover:bg-pink-600 shadow-xl">
+                    챌린지 참여하기
+                </button>
+            </div>
+            <div class="absolute -top-20 -right-20 w-64 h-64 bg-pink-500/20 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t opacity-50 text-center text-sm px-6">
+        <p>© 2024 Busan Tourism Organization. Content Plan based on "The Dual Soul" Campaign.</p>
+        <p class="mt-2 italic">바다를 경험하고, 열기를 느껴라. Experience the Blue, Feel the Heat.</p>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const themeLabel = document.getElementById('themeLabel');
+        const heroSubtitle = document.getElementById('heroSubtitle');
+        const sun = document.getElementById('sun');
+        const navbar = document.getElementById('navbar');
+
+        let isNight = false;
+
+        themeToggle.addEventListener('click', () => {
+            isNight = !isNight;
+            
+            if (isNight) {
+                body.classList.remove('theme-day');
+                body.classList.add('theme-night');
+                themeLabel.innerText = 'DAY MODE 전환';
+                heroSubtitle.innerText = 'Feel the Heat';
+                themeToggle.classList.remove('bg-sky-500');
+                themeToggle.classList.add('bg-purple-600');
+                sun.style.backgroundColor = '#a855f7'; 
+                document.documentElement.style.setProperty('--btn-color', '#9333ea');
+            } else {
+                body.classList.remove('theme-night');
+                body.classList.add('theme-day');
+                themeLabel.innerText = 'NIGHT MODE 전환';
+                heroSubtitle.innerText = 'Experience the Blue';
+                themeToggle.classList.remove('bg-purple-600');
+                themeToggle.classList.add('bg-sky-500');
+                sun.style.backgroundColor = '#fde047'; 
+                document.documentElement.style.setProperty('--btn-color', '#0ea5e9');
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('glass-card', 'py-4');
+                navbar.classList.remove('p-6');
+            } else {
+                navbar.classList.remove('glass-card', 'py-4');
+                navbar.classList.add('p-6');
+            }
+        });
+
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-transition').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
