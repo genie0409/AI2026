@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>부산광역시 글로벌 관광 정책 제안 대시보드</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
+        window.tailwind = {
             darkMode: 'class'
         }
     </script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Slate gray background, Ocean blue primary, Coral accent for warnings, clean white containers -->
@@ -82,15 +82,17 @@
         </div>
         
         <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex flex-col gap-2">
-            <a href="../index.html" class="flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-sm font-bold rounded-lg transition-colors">
+            <a href="../index.html" class="flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-sm font-bold rounded-lg transition-all shadow-sm">
                 <span>🏠</span> 홈으로 가기
             </a>
-            <button onclick="app.toggleTheme()" class="flex items-center justify-center gap-2 px-4 py-2.5 bg-sky-50 hover:bg-sky-100 dark:bg-sky-950 dark:hover:bg-sky-900 text-sky-700 dark:text-sky-300 text-sm font-bold rounded-lg transition-colors">
+            <button onclick="app.toggleTheme()" class="flex items-center justify-center gap-2 px-4 py-2 bg-sky-50 hover:bg-sky-100 dark:bg-sky-950/40 dark:hover:bg-sky-900/60 text-sky-700 dark:text-sky-300 text-sm font-bold rounded-lg transition-all shadow-sm">
                 <span id="theme-icon">🌙</span> <span id="theme-text">다크 모드</span>
             </button>
         </div>
 
-        <div class="flex flex-row md:flex-col overflow-x-auto hide-scrollbar p-2 md:p-4 gap-2">
+        <div class="flex flex-row md:flex-col overflow-x-auto hide-scrollbar p-2 md:p-4 gap-1 flex-1">
+            <span class="hidden md:block text-xs font-bold text-slate-400 dark:text-slate-500 px-3 uppercase tracking-wider mb-2 mt-2">대시보드 메뉴</span>
+            
             <button onclick="app.switchView('overview')" id="btn-overview" class="nav-btn active flex items-center gap-3 p-3 rounded-lg text-left whitespace-nowrap md:whitespace-normal text-sm md:text-base text-slate-600 dark:text-slate-300 font-medium">
                 <span class="text-xl">📊</span> 성과 요약
             </button>
@@ -103,10 +105,23 @@
             <button onclick="app.switchView('policy')" id="btn-policy" class="nav-btn flex items-center gap-3 p-3 rounded-lg text-left whitespace-nowrap md:whitespace-normal text-sm md:text-base text-slate-600 dark:text-slate-300 font-medium">
                 <span class="text-xl">💡</span> 정책 제언
             </button>
+
+            <div class="hidden md:block border-t border-slate-100 dark:border-slate-800 my-3"></div>
+            <span class="hidden md:block text-xs font-bold text-slate-400 dark:text-slate-500 px-3 uppercase tracking-wider mb-2">참고자료 및 링크</span>
+
+            <a href="https://youtu.be/rlfOAEnSY3Y" target="_blank" class="flex items-center gap-3 p-3 rounded-lg text-left whitespace-nowrap text-sm text-red-600 dark:text-red-400 font-semibold hover:bg-red-50 dark:hover:bg-red-950/20 transition-all">
+                <span class="text-xl">📺</span> <span>영상 보러가기</span>
+            </a>
+            <button onclick="app.openWordcloud()" class="flex items-center gap-3 p-3 rounded-lg text-left whitespace-nowrap text-sm text-purple-600 dark:text-purple-400 font-semibold hover:bg-purple-50 dark:hover:bg-purple-950/20 transition-all">
+                <span class="text-xl">☁️</span> <span>워드클라우드 보기</span>
+            </button>
+            <a href="./report.pdf" target="_blank" class="flex items-center gap-3 p-3 rounded-lg text-left whitespace-nowrap text-sm text-emerald-600 dark:text-emerald-400 font-semibold hover:bg-emerald-50 dark:hover:bg-emerald-950/20 transition-all">
+                <span class="text-xl">📄</span> <span>보고서 확인하기</span>
+            </a>
         </div>
         
-        <div class="mt-auto p-6 hidden md:block border-t border-slate-100 dark:border-slate-800">
-            <p class="text-xs text-slate-400 dark:text-slate-500">데이터 출처: KBS 뉴스 및 유튜브 댓글 데이터 (873건)<br>기준일: 2026.01.09</p>
+        <div class="mt-auto p-4 hidden md:block border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+            <p class="text-[10px] text-slate-400 dark:text-slate-500 leading-tight">데이터 출처: KBS 뉴스 및 유튜브 댓글 데이터 (873건)<br>기준일: 2026.01.09</p>
         </div>
     </nav>
 
@@ -115,7 +130,7 @@
         <div id="view-overview" class="view-section fade-in max-w-6xl mx-auto">
             <header class="mb-8">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight mb-4">성과 요약: 1조 원 시대의 개막</h2>
-                <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed text-justify bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
                     부산 관광 1조 원 시대의 주요 성과와 지표를 요약한 섹션입니다. 2026년 1월 보도된 내용을 바탕으로, 외국인 관광객 증가 양상과 소비 패턴의 긍정적인 지표들을 확인할 수 있습니다. 데이터는 부산이 체류형 관광지로 전환되고 있음을 보여줍니다.
                 </p>
             </header>
@@ -156,7 +171,7 @@
                     </div>
                     <div class="mt-4 p-4 bg-orange-50 dark:bg-orange-950/50 rounded-xl text-orange-800 dark:text-orange-200 text-sm flex gap-3">
                         <span class="text-xl">⚠️</span>
-                        <p class="leading-relaxed"><strong>인사이트:</strong> 서면(부전동), 해운대 일대에 매출의 53%가 집중되어 있습니다. 이는 성장의 이면에 도시 불균형이라는 위험 요소가 존재함을 시사합니다.</p>
+                        <p class="leading-relaxed text-justify"><strong>인사이트:</strong> 서면(부전동), 해운대 일대에 매출의 53%가 집중되어 있습니다. 이는 성장의 이면에 도시 불균형이라는 위험 요소가 존재함을 시사합니다.</p>
                     </div>
                 </div>
 
@@ -164,7 +179,7 @@
                     <div class="bg-gradient-to-br from-sky-500 to-blue-600 dark:from-sky-600 dark:to-blue-800 p-8 rounded-2xl shadow-md text-white h-full flex flex-col justify-center">
                         <span class="text-5xl mb-4">🍲</span>
                         <h3 class="text-2xl font-bold mb-2">킬러 콘텐츠의 부상</h3>
-                        <p class="text-sky-100 leading-relaxed text-base">
+                        <p class="text-sky-100 leading-relaxed text-base text-justify">
                             대만 현지에서 팬미팅이 열릴 정도로 <strong>'부기'</strong> 캐릭터가 성공했으며, 선호 음식 1위로 <strong>'돼지국밥'</strong>(66.9%)이 꼽혔습니다. 또한, 개별 여행 트렌드에 맞춰 전통시장(국제시장 이불 등)이 가성비와 체험을 중시하는 새로운 명소로 부활하고 있습니다.
                         </p>
                     </div>
@@ -175,7 +190,7 @@
         <div id="view-sentiment" class="view-section hidden max-w-6xl mx-auto">
             <header class="mb-8">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight mb-4">시민 여론 분석: 데이터로 본 현실</h2>
-                <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed text-justify bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
                     언론 보도의 이면에 있는 시민들의 생생한 목소리를 분석한 섹션입니다. 873건의 유튜브 댓글 데이터를 카테고리별로 분류했습니다. <strong>아래 차트의 막대를 클릭</strong>하면 해당 주제에 대한 시민들의 실제 목소리와 핵심 분석 내용을 확인할 수 있습니다.
                 </p>
             </header>
@@ -199,7 +214,7 @@
         <div id="view-comparison" class="view-section hidden max-w-6xl mx-auto">
             <header class="mb-8">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight mb-4">보도 vs 여론: 인식의 간극</h2>
-                <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed text-justify bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
                     언론이 보도하는 '거시적 지표 및 행정적 성과'와 일반 시민들이 체감하는 '미시적 현실 및 구조적 문제의식' 사이의 간극을 비교 분석한 섹션입니다. 이러한 간극을 이해하는 것이 실효성 있는 정책 수립의 첫걸음입니다.
                 </p>
             </header>
@@ -211,11 +226,11 @@
                     </div>
                     <div class="p-4 md:p-6 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-800">
                         <span class="text-xs font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider mb-2 block">영상 보도 관점</span>
-                        <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">전통시장의 넉넉한 인심과 가성비 맛집 유행을 긍정적인 관광 요소로 묘사</p>
+                        <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed text-justify">전통시장의 넉넉한 인심과 가성비 맛집 유행을 긍정적인 관광 요소로 묘사</p>
                     </div>
                     <div class="p-4 md:p-6 bg-red-50/50 dark:bg-red-950/20">
                         <span class="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wider mb-2 block">시민 여론 관점</span>
-                        <p class="text-slate-800 dark:text-slate-200 font-medium text-sm leading-relaxed"><strong>'바가지 요금'에 대한 극도의 불안감</strong> 표출. 미꾸라지 상인에 대한 강력한 사후 단속과 상인회 자정 조치 강력 요구</p>
+                        <p class="text-slate-800 dark:text-slate-200 font-medium text-sm leading-relaxed text-justify"><strong>'바가지 요금'에 대한 극도의 불안감</strong> 표출. 미꾸라지 상인에 대한 강력한 사후 단속과 상인회 자정 조치 강력 요구</p>
                     </div>
                 </div>
 
@@ -225,11 +240,11 @@
                     </div>
                     <div class="p-4 md:p-6 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-800">
                         <span class="text-xs font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider mb-2 block">영상 보도 관점</span>
-                        <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">인구는 줄고 있으나 외국인 체류 및 소비 확대로 도시 활력이 유지된다고 긍정 평가</p>
+                        <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed text-justify">인구는 줄고 있으나 외국인 체류 및 소비 확대로 도시 활력이 유지된다고 긍정 평가</p>
                     </div>
                     <div class="p-4 md:p-6 bg-orange-50/50 dark:bg-orange-950/20">
                         <span class="text-xs font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider mb-2 block">시민 여론 관점</span>
-                        <p class="text-slate-800 dark:text-slate-200 font-medium text-sm leading-relaxed">단순 소비 증가는 단기 처방에 불과. 관광은 취약하므로 <strong>양질의 일자리와 대기업 유치, 첨단 산업 투자</strong>가 본질적 청년 유출 해결책임을 강조</p>
+                        <p class="text-slate-800 dark:text-slate-200 font-medium text-sm leading-relaxed text-justify">단순 소비 증가는 단기 처방에 불과. 관광은 취약하므로 <strong>양질의 일자리와 대기업 유치, 첨단 산업 투자</strong>가 본질적 청년 유출 해결책임을 강조</p>
                     </div>
                 </div>
 
@@ -239,11 +254,11 @@
                     </div>
                     <div class="p-4 md:p-6 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-800">
                         <span class="text-xs font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider mb-2 block">영상 보도 관점</span>
-                        <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">외국인 전용 '비짓부산패스' 등 우수 행정 사례와 편리성을 위주로 소개</p>
+                        <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed text-justify">외국인 전용 '비짓부산패스' 등 우수 행정 사례와 편리성을 위주로 소개</p>
                     </div>
                     <div class="p-4 md:p-6 bg-yellow-50/50 dark:bg-yellow-950/20">
                         <span class="text-xs font-bold text-yellow-600 dark:text-yellow-400 uppercase tracking-wider mb-2 block">시민 여론 관점</span>
-                        <p class="text-slate-800 dark:text-slate-200 font-medium text-sm leading-relaxed">김해공항의 극심한 포화 상태 지적 및 <strong>공항 게이트 앞 불법 택시 영업(승차거부, 바가지)</strong> 등 현장의 심각한 불편 사항 고발</p>
+                        <p class="text-slate-800 dark:text-slate-200 font-medium text-sm leading-relaxed text-justify">김해공항의 극심한 포화 상태 지적 및 <strong>공항 게이트 앞 불법 택시 영업(승차거부, 바가지)</strong> 등 현장의 심각한 불편 사항 고발</p>
                     </div>
                 </div>
 
@@ -253,11 +268,11 @@
                     </div>
                     <div class="p-4 md:p-6 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-800">
                         <span class="text-xs font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider mb-2 block">영상 보도 관점</span>
-                        <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">데이터 기반으로 서면, 해운대 쏠림 현상을 분석하며 도시 불균형 성장을 지적</p>
+                        <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed text-justify">데이터 기반으로 서면, 해운대 쏠림 현상을 분석하며 도시 불균형 성장을 지적</p>
                     </div>
                     <div class="p-4 md:p-6 bg-emerald-50/50 dark:bg-emerald-950/20">
                         <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-2 block">시민 여론 관점</span>
-                        <p class="text-slate-800 dark:text-slate-200 font-medium text-sm leading-relaxed">문제 지적에 공감하며, 나아가 원도심 산악 관광 자원(모노레일 등) 개발 및 시스템 개선 등 <strong>실질적 분산 대안을 적극 제시</strong></p>
+                        <p class="text-slate-800 dark:text-slate-200 font-medium text-sm leading-relaxed text-justify">문제 지적에 공감하며, 나아가 원도심 산악 관광 자원(모노레일 등) 개발 및 시스템 개선 등 <strong>실질적 분산 대안을 적극 제시</strong></p>
                     </div>
                 </div>
             </div>
@@ -266,7 +281,7 @@
         <div id="view-policy" class="view-section hidden max-w-6xl mx-auto">
             <header class="mb-8">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight mb-4">4대 정책 제언: 실행 방안</h2>
-                <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed text-justify bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
                     분석된 시민 여론을 바탕으로 도출된 부산광역시를 위한 4가지 핵심 정책 제언입니다. 일시적인 유행을 넘어 '글로벌 관광·경제 1등 도시'로 지속 가능하게 도약하기 위한 구체적인 솔루션을 제시합니다. <strong>각 카드를 클릭하여 상세 방안을 확인하십시오.</strong>
                 </p>
             </header>
@@ -282,8 +297,8 @@
                         </div>
                     </div>
                     <div class="p-6 bg-white dark:bg-slate-900 hidden-content hidden">
-                        <p class="text-slate-600 dark:text-slate-300 mb-4 font-medium leading-relaxed text-sm">현황: 시민들이 가장 우려하는 대목으로, 일부 상인의 탐욕이 전체 이미지를 훼손할 위험이 큼.</p>
-                        <ul class="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-200 text-sm leading-relaxed">
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 font-medium leading-relaxed text-sm text-justify">현황: 시민들이 가장 우려하는 대목으로, 일부 상인의 탐욕이 전체 이미지를 훼손할 위험이 큼.</p>
+                        <ul class="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-200 text-sm leading-relaxed text-justify">
                             <li><strong>원스톱 핫라인 구축:</strong> 외국인 관광객이 모바일 다국어 지원으로 현장에서 즉시 신고 가능한 QR코드 시스템 도입.</li>
                             <li><strong>상인회 자정 의무화:</strong> 불법 적발 시 지자체 과태료 부과 및 상인회 전통시장 지원금 삭감 등 패널티 연동. 정직 상점은 세제 및 마케팅 혜택 부여.</li>
                         </ul>
@@ -300,8 +315,8 @@
                         </div>
                     </div>
                     <div class="p-6 bg-white dark:bg-slate-900 hidden-content hidden">
-                        <p class="text-slate-600 dark:text-slate-300 mb-4 font-medium leading-relaxed text-sm">현황: 김해공항의 협소함과 공항 게이트 앞 택시 불법 영업이 도시 첫인상을 심각히 훼손함.</p>
-                        <ul class="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-200 text-sm leading-relaxed">
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 font-medium leading-relaxed text-sm text-justify">현황: 김해공항의 협소함과 공항 게이트 앞 택시 불법 영업이 도시 첫인상을 심각히 훼손함.</p>
+                        <ul class="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-200 text-sm leading-relaxed text-justify">
                             <li><strong>택시 불법 영업 집중 단속:</strong> 경찰 및 지자체 합동 단속반 상설화. 호객 행위, 바가지, 승차 거부 즉각 사법 처리.</li>
                             <li><strong>인프라 조기 확충:</strong> 가덕도 신공항 건설 조기 추진 및 김해공항 화장실/대기실 긴급 리모델링 예산 우선 배정.</li>
                         </ul>
@@ -318,8 +333,8 @@
                         </div>
                     </div>
                     <div class="p-6 bg-white dark:bg-slate-900 hidden-content hidden">
-                        <p class="text-slate-600 dark:text-slate-300 mb-4 font-medium leading-relaxed text-sm">현황: 해운대, 광안리 중심 해양 관광 쏠림으로 동/서부산 불균형 심화 및 혼잡도 증가.</p>
-                        <ul class="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-200 text-sm leading-relaxed">
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 font-medium leading-relaxed text-sm text-justify">현황: 해운대, 광안리 중심 해양 관광 쏠림으로 동/서부산 불균형 심화 및 혼잡도 증가.</p>
+                        <ul class="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-200 text-sm leading-relaxed text-justify">
                             <li><strong>산악 관광 자원 고도화:</strong> 금정산, 금련산 등 자원에 환경 훼손을 최소화하는 하이브리드 트램, 모노레일 설치 검토로 접근성 개선.</li>
                             <li><strong>골목 관광 연계:</strong> 서부산/원도심 역사(초량 산복도로, 흰여울문화마을 등) 및 전통시장을 연계한 다국어 스토리텔링 가이드 투어 상품 지원.</li>
                         </ul>
@@ -336,8 +351,8 @@
                         </div>
                     </div>
                     <div class="p-6 bg-white dark:bg-slate-900 hidden-content hidden">
-                        <p class="text-slate-600 dark:text-slate-300 mb-4 font-medium leading-relaxed text-sm">현황: 관광 활성화가 불안정한 단기 일자리 위주로 양산되어 실질적 청년 유출 방지에 한계가 있음.</p>
-                        <ul class="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-200 text-sm leading-relaxed">
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 font-medium leading-relaxed text-sm text-justify">현황: 관광 활성화가 불안정한 단기 일자리 위주로 양산되어 실질적 청년 유출 방지에 한계가 있음.</p>
+                        <ul class="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-200 text-sm leading-relaxed text-justify">
                             <li><strong>기금 펀드화:</strong> 외국인 관광 지출을 통해 거둔 세수 일부를 '부산 청년 미래산업 육성 기금'으로 적립.</li>
                             <li><strong>트래블테크 유치:</strong> 관광 데이터 분석, AI 매칭 플랫폼, 친환경 모빌리티 등 관광과 기술이 결합된 스타트업 적극 유치 및 보조금 지원.</li>
                         </ul>
@@ -345,21 +360,6 @@
                     <div class="p-3 bg-white dark:bg-slate-900 text-center text-xs text-slate-400 dark:text-slate-500 font-bold tracking-widest border-t border-slate-50 dark:border-slate-800 group-hover:bg-slate-50 dark:group-hover:bg-slate-800/50 indicator">클릭하여 펼치기 ▼</div>
                 </div>
 
-            </div>
-
-            <div class="mt-8 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4">📂 추가 자료 및 링크</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <a href="https://youtu.be/rlfOAEnSY3Y" target="_blank" class="flex items-center justify-center gap-3 px-6 py-4 bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-950/50 text-red-700 dark:text-red-400 rounded-xl font-bold text-sm transition-colors border border-red-100 dark:border-red-900/50 shadow-sm">
-                        <span class="text-2xl">📺</span> 유튜브 영상 보러가기
-                    </a>
-                    <button onclick="app.openWordcloud()" class="flex items-center justify-center gap-3 px-6 py-4 bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/30 dark:hover:bg-purple-950/50 text-purple-700 dark:text-purple-400 rounded-xl font-bold text-sm transition-colors border border-purple-100 dark:border-purple-900/50 shadow-sm">
-                        <span class="text-2xl">☁️</span> 댓글 워드클라우드 보기
-                    </button>
-                    <a href="./report.pdf" target="_blank" class="flex items-center justify-center gap-3 px-6 py-4 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/30 dark:hover:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 rounded-xl font-bold text-sm transition-colors border border-emerald-100 dark:border-emerald-900/50 shadow-sm">
-                        <span class="text-2xl">📄</span> 보고서 확인하기
-                    </a>
-                </div>
             </div>
             
             <div class="mt-12 bg-slate-800 dark:bg-slate-900 text-white p-8 rounded-2xl text-center shadow-lg">
@@ -374,7 +374,7 @@
     </main>
 
     <div id="wordcloud-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4 transition-all">
-        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 transition-all transform scale-95 duration-300" id="modal-container">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 transition-all transform scale-95 opacity-0 duration-300" id="modal-container">
             <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-900">
                 <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                     <span>☁️</span> 댓글 명사 워드클라우드
@@ -473,8 +473,30 @@
             currentTheme: 'light',
             
             init() {
+                this.initThemeFromStorage();
                 this.initOverviewChart();
                 this.initSentimentChart();
+            },
+
+            initThemeFromStorage() {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                const doc = document.documentElement;
+                const themeIcon = document.getElementById('theme-icon');
+                const themeText = document.getElementById('theme-text');
+
+                if (savedTheme === 'dark') {
+                    doc.classList.remove('light');
+                    doc.classList.add('dark');
+                    this.currentTheme = 'dark';
+                    if (themeIcon) themeIcon.innerText = '☀️';
+                    if (themeText) themeText.innerText = '라이트 모드';
+                } else {
+                    doc.classList.remove('dark');
+                    doc.classList.add('light');
+                    this.currentTheme = 'light';
+                    if (themeIcon) themeIcon.innerText = '🌙';
+                    if (themeText) themeText.innerText = '다크 모드';
+                }
             },
 
             openWordcloud() {
@@ -482,16 +504,16 @@
                 const container = document.getElementById('modal-container');
                 modal.classList.remove('hidden');
                 setTimeout(() => {
-                    container.classList.remove('scale-95');
-                    container.classList.add('scale-100');
-                }, 10);
+                    container.classList.remove('scale-95', 'opacity-0');
+                    container.classList.add('scale-100', 'opacity-100');
+                }, 20);
             },
 
             closeWordcloud() {
                 const modal = document.getElementById('wordcloud-modal');
                 const container = document.getElementById('modal-container');
-                container.classList.remove('scale-100');
-                container.classList.add('scale-95');
+                container.classList.remove('scale-100', 'opacity-100');
+                container.classList.add('scale-95', 'opacity-0');
                 setTimeout(() => {
                     modal.classList.add('hidden');
                 }, 150);
@@ -508,12 +530,14 @@
                     this.currentTheme = 'light';
                     themeIcon.innerText = '🌙';
                     themeText.innerText = '다크 모드';
+                    localStorage.setItem('theme', 'light');
                 } else {
                     doc.classList.remove('light');
                     doc.classList.add('dark');
                     this.currentTheme = 'dark';
                     themeIcon.innerText = '☀️';
                     themeText.innerText = '라이트 모드';
+                    localStorage.setItem('theme', 'dark');
                 }
                 
                 this.updateChartsTheme();
@@ -579,7 +603,7 @@
                         labels: appData.overviewChart.labels,
                         datasets: [{
                             data: appData.overviewChart.data,
-                            backgroundColor: [appData.overviewChart.colors[0], '#e2e8f0'],
+                            backgroundColor: [appData.overviewChart.colors[0], this.currentTheme === 'dark' ? '#1e293b' : '#e2e8f0'],
                             borderWidth: 0,
                             hoverOffset: 4
                         }]
@@ -592,7 +616,7 @@
                                 position: 'bottom',
                                 labels: {
                                     font: { family: 'Noto Sans KR' },
-                                    color: '#475569'
+                                    color: this.currentTheme === 'dark' ? '#cbd5e1' : '#475569'
                                 }
                             },
                             tooltip: {
@@ -610,6 +634,7 @@
 
             initSentimentChart() {
                 const ctx = document.getElementById('sentimentChart').getContext('2d');
+                const isDark = this.currentTheme === 'dark';
                 this.charts.sentiment = new Chart(ctx, {
                     type: 'bar',
                     data: {
@@ -642,12 +667,12 @@
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                grid: { color: '#f1f5f9' },
-                                ticks: { color: '#475569', font: { family: 'Noto Sans KR' } }
+                                grid: { color: isDark ? '#334155' : '#f1f5f9' },
+                                ticks: { color: isDark ? '#cbd5e1' : '#475569', font: { family: 'Noto Sans KR' } }
                             },
                             x: {
                                 grid: { display: false },
-                                ticks: { color: '#475569', font: { family: 'Noto Sans KR' } }
+                                ticks: { color: isDark ? '#cbd5e1' : '#475569', font: { family: 'Noto Sans KR' } }
                             }
                         }
                     }
@@ -663,7 +688,7 @@
                 let quotesHtml = '';
                 if (data.quotes.length > 0) {
                     quotesHtml = data.quotes.map(q => 
-                        `<blockquote class="italic text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border-l-4 border-slate-200 dark:border-slate-700 text-sm md:text-base leading-relaxed">"${q}"</blockquote>`
+                        `<blockquote class="italic text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-850 p-4 rounded-xl border-l-4 border-slate-200 dark:border-slate-700 text-sm md:text-base leading-relaxed text-justify">"${q}"</blockquote>`
                     ).join('');
                 } else {
                     quotesHtml = '<p class="text-slate-400 dark:text-slate-500 text-sm">해당 분류의 대표 인용구가 없습니다.</p>';
@@ -676,7 +701,7 @@
                             <span class="w-4 h-4 rounded-full" style="background-color: ${colorCode}"></span>
                             <h4 class="text-2xl font-bold text-slate-800 dark:text-slate-100">${categoryLabel}</h4>
                         </div>
-                        <p class="text-slate-700 dark:text-slate-200 mb-6 font-medium bg-slate-100 dark:bg-slate-800 p-4 rounded-xl text-sm leading-relaxed">${data.text}</p>
+                        <p class="text-slate-700 dark:text-slate-200 mb-6 font-medium bg-slate-100 dark:bg-slate-800 p-4 rounded-xl text-sm leading-relaxed text-justify">${data.text}</p>
                         <div class="space-y-4">
                             <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">대표 시민 의견</span>
                             ${quotesHtml}
