@@ -160,7 +160,12 @@
                     <p class="text-xs text-sky-500 dark:text-sky-600 mt-2">외국인 누적 지출액 (전년비 32.4%↑)</p>
                 </div>
                 <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col justify-center items-center text-center">
-                    <span class="text-4xl mb-2">🇹🇼</span>
+                    <!-- 플랫폼과 무관하게 완벽하게 렌더링되는 정밀 HTML/CSS 기반 대만 국기 컴포넌트 -->
+                    <div class="w-12 h-8 bg-[#FE0000] relative rounded shadow-sm overflow-hidden mb-2 flex-shrink-0">
+                        <div class="absolute top-0 left-0 w-6 h-4 bg-[#000095] flex items-center justify-center">
+                            <span class="text-white text-[10px] leading-none font-extrabold select-none">✵</span>
+                        </div>
+                    </div>
                     <h3 class="text-slate-500 dark:text-slate-400 text-sm font-semibold mb-1">최다 방문 국적</h3>
                     <p class="text-3xl font-black text-slate-800 dark:text-slate-100">20%</p>
                     <p class="text-xs text-slate-400 dark:text-slate-500 mt-2">대만 관광객 비율 (5명 중 1명)</p>
