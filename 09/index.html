@@ -15,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght=300;400;500;700;900&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Slate gray background, Ocean blue primary, Coral accent for warnings, clean white containers -->
-    <!-- Application Structure Plan: Dashboard approach with side navigation. Divided into 'Overview' (Video metrics), 'Public Sentiment' (Comment data), and 'Action Plan' (Policy proposals). This structure logically guides the user from the superficial success to the underlying issues, and finally to the solutions. -->
+    <!-- Application Structure Plan: Dashboard approach with side navigation. Divided into 'Overview' (Video metrics), 'Public Sentiment' (Comment data), 'Comparison' (Bo-do vs Sentiment), 'Policy' (Policy proposals), and 'Major' (Library & Info Science view). This structure logically guides the user from the superficial success to the underlying issues, and finally to the solutions. -->
     <!-- Visualization & Content Choices: 1. KPIs (Inform) -> Big number cards. 2. Tourist composition (Compare) -> Chart.js Doughnut. 3. Comment Categories (Compare/Organize) -> Chart.js Bar chart with interactive click filtering to show quotes. 4. Proposals (Organize) -> CSS Grid cards with expand/collapse logic. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -115,8 +115,12 @@
             <button onclick="app.switchView('policy')" id="btn-policy" class="nav-btn flex items-center gap-3 p-3 rounded-lg text-left whitespace-nowrap md:whitespace-normal text-sm md:text-base text-slate-600 dark:text-slate-300 font-medium">
                 <span class="text-xl">💡</span> 정책 제언
             </button>
+            
+            <!-- 전공 맞춤형 제언 버튼: 매끄러운 사각형 금색 테두리와 골드 그림자 효과 추가 -->
+            <button onclick="app.switchView('major')" id="btn-major" class="nav-btn flex items-center gap-3 p-3 rounded-lg text-left whitespace-nowrap md:whitespace-normal text-sm md:text-base text-slate-700 dark:text-slate-100 font-bold border-2 border-[#D4AF37] dark:border-[#FFD700] shadow-[0_0_8px_rgba(212,175,55,0.25)] hover:shadow-[0_0_12px_rgba(212,175,55,0.45)] transition-all mt-1">
+                <span class="text-xl">⚙️</span> 전공 맞춤형 제언
+            </button>
 
-            <!-- 메뉴 항목 바로 아래 일렬로 추가 자료 링크들 배치 -->
             <div class="hidden md:block border-t border-slate-100 dark:border-slate-800 my-3"></div>
             <span class="hidden md:block text-xs font-bold text-slate-400 dark:text-slate-500 px-3 uppercase tracking-wider mb-2">참고자료 및 링크</span>
 
@@ -138,6 +142,7 @@
 
     <main class="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-950 relative p-4 md:p-8">
         
+        <!-- 1. 성과 요약 뷰 -->
         <div id="view-overview" class="view-section fade-in max-w-6xl mx-auto">
             <header class="mb-8">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight mb-4">성과 요약: 1조 원 시대의 개막</h2>
@@ -160,7 +165,6 @@
                     <p class="text-xs text-sky-500 dark:text-sky-600 mt-2">외국인 누적 지출액 (전년비 32.4%↑)</p>
                 </div>
                 <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col justify-center items-center text-center">
-                    <!-- 플랫폼과 무관하게 완벽하게 렌더링되는 정밀 HTML/CSS 기반 대만 국기 컴포넌트 -->
                     <div class="w-12 h-8 bg-[#FE0000] relative rounded shadow-sm overflow-hidden mb-2 flex-shrink-0">
                         <div class="absolute top-0 left-0 w-6 h-4 bg-[#000095] flex items-center justify-center">
                             <span class="text-white text-[10px] leading-none font-extrabold select-none">✵</span>
@@ -187,7 +191,7 @@
                     </div>
                     <div class="mt-4 p-4 bg-orange-50 dark:bg-orange-950/50 rounded-xl text-orange-800 dark:text-orange-200 text-sm flex gap-3">
                         <span class="text-xl">⚠️</span>
-                        <p class="leading-relaxed text-justify"><strong>인사이트:</strong> 서면(부전동), 해운대 일대에 매출의 53%가 집중되어 있습니다. 이는 성장의 이면에 도시 불균형이라는 위험 요소가 존재함을 시사합니다.</p>
+                        <p class="leading-relaxed text-justify"><strong>인사이트:</strong> 서면(부전동), 해운대 일대에 매출 of 53%가 집중되어 있습니다. 이는 성장의 이면에 도시 불균형이라는 위험 요소가 존재함을 시사합니다.</p>
                     </div>
                 </div>
 
@@ -203,6 +207,7 @@
             </div>
         </div>
 
+        <!-- 2. 시민 여론 분석 뷰 -->
         <div id="view-sentiment" class="view-section hidden max-w-6xl mx-auto">
             <header class="mb-8">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight mb-4">시민 여론 분석: 데이터로 본 현실</h2>
@@ -227,6 +232,7 @@
             </div>
         </div>
 
+        <!-- 3. 보도 vs 여론 뷰 -->
         <div id="view-comparison" class="view-section hidden max-w-6xl mx-auto">
             <header class="mb-8">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight mb-4">보도 vs 여론: 인식의 간극</h2>
@@ -294,6 +300,7 @@
             </div>
         </div>
 
+        <!-- 4. 일반 정책 제언 뷰 -->
         <div id="view-policy" class="view-section hidden max-w-6xl mx-auto">
             <header class="mb-8">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight mb-4">4대 정책 제언: 실행 방안</h2>
@@ -377,35 +384,167 @@
                 </div>
 
             </div>
-            
-            <div class="mt-12 bg-slate-800 dark:bg-slate-900 text-white p-8 rounded-2xl text-center shadow-lg">
-                <span class="text-4xl block mb-4">🎯</span>
-                <h3 class="text-2xl font-bold mb-4">결론</h3>
-                <p class="text-slate-300 dark:text-slate-400 leading-relaxed max-w-3xl mx-auto text-sm md:text-base text-justify md:text-center">
-                    부산광역시는 외국인 지출액 1조 원을 돌파하며 아시아 글로벌 허브 관광 도시로 도약할 기회를 맞이했습니다. 그러나 시민들의 목소리는 명확합니다. 화려한 성과 이면의 <strong>'바가지 요금', '열악한 관문 인프라'</strong>를 신속히 해결하고, 관광의 온기가 <strong>'청년들의 양질의 일자리 창출'</strong>로 이어져야 한다는 것입니다. 정직한 물가, 편리한 인프라, 청년이 살기 좋은 명품 도시 부산을 만들어가야 합니다.
+        </div>
+
+        <!-- 5. 전공 맞춤형 제언 뷰 (문헌정보학 전공 탭: 부산 공공도서관 라이브러리 투어) -->
+        <div id="view-major" class="view-section hidden max-w-6xl mx-auto">
+            <header class="mb-8">
+                <div class="flex items-center gap-4 mb-4">
+                    <span class="text-5xl">📖</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight">전공 맞춤형 제언: 문헌정보학(LIS)</h2>
+                </div>
+                <p class="text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed text-justify bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                    도서관은 세금으로 운영되며 누구에게나 완전히 무료로 개방된 가장 공평하고 훌륭한 복합 지식 문화 공간입니다. 서면과 해운대 일대에만 치우친 부산의 심각한 외국인 소비 관광 패턴(쏠림률 53%)을 극복하기 위해, 부산 동서남북 도처에 위치한 개성 있는 공공 및 테마 도서관들을 엮은 <strong>'부산 라이브러리 투어 벨트(Busan Library Tour Belt)'</strong>를 제안합니다. 이는 문헌정보학적 <strong>정보 접근성(Access) 극대화 이론</strong>을 적용하여 정보 소외 지역의 로컬 가치를 끌어올리는 혁신적인 지식 조직 대안입니다.
+                </p>
+            </header>
+
+            <!-- 별자리 은하수 지도 캔버스 컨테이너 (여기에 부산 지도가 별자리 아트로 렌더링됨) -->
+            <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm mb-8">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                            <span>🌌</span> 부산 지혜의 별자리 지도
+                        </h3>
+                        <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">별(★) 모양 도서관 마커에 마우스를 올리면 각 거점의 상세 계획 카드가 강조됩니다.</p>
+                    </div>
+                    <span class="text-xs font-bold text-amber-500 animate-pulse bg-amber-50 dark:bg-amber-950/40 px-3 py-1.5 rounded-lg border border-amber-200">INTERACTIVE</span>
+                </div>
+                <div class="relative w-full bg-slate-950 rounded-xl overflow-hidden border border-slate-800">
+                    <!-- 우주/지형 캔버스 -->
+                    <canvas id="constellationCanvas" class="w-full h-auto cursor-pointer block" width="800" height="400"></canvas>
+                </div>
+            </div>
+
+            <!-- 주요 연계 대상 도서관 5개 소개 카드 섹션 -->
+            <div class="mb-8">
+                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-6 flex items-center gap-2">
+                    <span>📌</span> 라이브러리 투어 주요 거점 코스 및 정보 큐레이션 컨셉
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- 국회부산도서관 -->
+                    <div id="card-lh" class="glass-card rounded-2xl p-6 border-l-4 border-l-red-500 hover:shadow-md transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="font-extrabold text-lg text-slate-800 dark:text-slate-100">국회부산도서관</h4>
+                                <span class="text-xs font-bold px-2 py-1 bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 rounded-lg">서부산 거점</span>
+                            </div>
+                            <p class="text-xs text-slate-400 dark:text-slate-500 mb-3">위치: 강서구 명지국제신도시</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed text-justify mb-4">
+                                영남권 최초의 국회도서관 분관입니다. 현대적인 웅장한 건축 디자인과 정원이 결합된 지적 해방감을 제공합니다.
+                            </p>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl text-[11px] text-slate-500 dark:text-slate-400">
+                            <strong>📚 큐레이션 컨셉:</strong> "국가 서지 보존 및 대형 서가 아카이빙을 체험하는 복합 지적 힐링 공간"
+                        </div>
+                    </div>
+
+                    <!-- 부산도서관 -->
+                    <div id="card-bl" class="glass-card rounded-2xl p-6 border-l-4 border-l-sky-500 hover:shadow-md transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="font-extrabold text-lg text-slate-800 dark:text-slate-100">부산도서관</h4>
+                                <span class="text-xs font-bold px-2 py-1 bg-sky-100 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 rounded-lg">서부산 거점</span>
+                            </div>
+                            <p class="text-xs text-slate-400 dark:text-slate-500 mb-3">위치: 사상구 덕포동</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed text-justify mb-4">
+                                부산 공공도서관의 컨트롤 타워입니다. 회색 공장지대를 '지혜의 숲' 콘셉트 공간으로 변형하여 정보 커먼즈 서비스를 리드합니다.
+                            </p>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl text-[11px] text-slate-500 dark:text-slate-400">
+                            <strong>📚 큐레이션 컨셉:</strong> "소외된 공간을 살려낸 스마트 정보 공유 기술과 지혜의 숲 인프라 체험"
+                        </div>
+                    </div>
+
+                    <!-- 북두칠성도서관 -->
+                    <div id="card-bd" class="glass-card rounded-2xl p-6 border-l-4 border-l-purple-500 hover:shadow-md transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="font-extrabold text-lg text-slate-800 dark:text-slate-100">북두칠성도서관</h4>
+                                <span class="text-xs font-bold px-2 py-1 bg-purple-100 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 rounded-lg">원도심 거점</span>
+                            </div>
+                            <p class="text-xs text-slate-400 dark:text-slate-500 mb-3">위치: 동구 초량동 (부산역 인근)</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed text-justify mb-4">
+                                민간 재원으로 설립된 곡선미 가득한 복합 도서관입니다. 부산역 근처로 개별 자유 여행객들이 유입되기 좋은 지리적 장점이 있습니다.
+                            </p>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl text-[11px] text-slate-500 dark:text-slate-400">
+                            <strong>📚 큐레이션 컨셉:</strong> "민간 재원으로 꽃피운 예술적 북 큐레이션 테마 공간과 디자인 가치의 융합"
+                        </div>
+                    </div>
+
+                    <!-- 시민도서관 -->
+                    <div id="card-cl" class="glass-card rounded-2xl p-6 border-l-4 border-l-emerald-500 hover:shadow-md transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="font-extrabold text-lg text-slate-800 dark:text-slate-100">시민도서관</h4>
+                                <span class="text-xs font-bold px-2 py-1 bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 rounded-lg">부산 최초</span>
+                            </div>
+                            <p class="text-xs text-slate-400 dark:text-slate-500 mb-3">위치: 부산진구 초읍동</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed text-justify mb-4">
+                                1901년에 설립되어 120년 전통을 간직한 부산 역사의 상징입니다. 향토 자료와 해양 역사 컬렉션을 보관하는 정통 로컬 지식 보관소입니다.
+                            </p>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl text-[11px] text-slate-500 dark:text-slate-400">
+                            <strong>📚 큐레이션 컨셉:</strong> "부산의 근현대사 100년 발자취를 품은 고문헌 및 향토 문화 아카이브 투어"
+                        </div>
+                    </div>
+
+                    <!-- 부전도서관 -->
+                    <div id="card-bj" class="glass-card rounded-2xl p-6 border-l-4 border-l-amber-500 hover:shadow-md transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="font-extrabold text-lg text-slate-800 dark:text-slate-100">부전도서관</h4>
+                                <span class="text-xs font-bold px-2 py-1 bg-amber-100 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 rounded-lg">역사적 상징</span>
+                            </div>
+                            <p class="text-xs text-slate-400 dark:text-slate-500 mb-3">위치: 부산진구 부전동 (서면 도심)</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed text-justify mb-4">
+                                서면 한복판에서 시민들의 지성을 지켜온 도서관입니다. 도시 상징성과 보존 가치가 높습니다.
+                            </p>
+                        </div>
+                        <div class="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl text-[11px] text-slate-500 dark:text-slate-400">
+                            <strong>📚 큐레이션 컨셉:</strong> "화려한 서면 번화가 이면에서 지성의 요람 역할을 해온 장소성(Placeness) 보존과 기록"
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 문헌정보학 기반의 구체적 실행 방안 제언 -->
+            <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm mb-8">
+                <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4">⚙️ 라이브러리 관광 코스화를 위한 LIS(문헌정보학) 기반 실행 전략</h3>
+                <div class="space-y-4">
+                    <div class="p-4 bg-slate-50 dark:bg-slate-850 rounded-xl">
+                        <h4 class="font-bold text-slate-800 dark:text-slate-100 mb-1 text-sm md:text-base">1. 메타데이터 통합 및 스마트 라이브러리 패스 (Semantic Metadata Link)</h4>
+                        <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed text-justify">
+                            다국어 통합 관광 플랫폼(예: 비짓부산패스)과 부산시 통합 도서관 시스템의 <strong>마이크로데이터를 메타데이터 수준에서 상호 참조(LOD, Linked Open Data)</strong>가 되도록 설계합니다. 외국인 관광객이 특정 도서관을 방문할 시 모바일 비짓패스 앱에 '부산 지식 패스포트 스탬프'가 스마트 계약 형식으로 발급되어, 도서관 고유의 굿즈나 커피 쿠폰을 보상으로 연계합니다.
+                        </p>
+                    </div>
+                    <div class="p-4 bg-slate-50 dark:bg-slate-850 rounded-xl">
+                        <h4 class="font-bold text-slate-800 dark:text-slate-100 mb-1 text-sm md:text-base">2. 시티투어 도서관 테마노선 신설 및 다국어 정보 가이드 (Information Access)</h4>
+                        <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed text-justify">
+                            부산역(북두칠성) -> 서면(부전) -> 초읍(시민) -> 덕포(부산도서관) -> 명지(국회도서관)를 한 바퀴 도는 <strong>'라이브러리 테마 버스 노선'</strong> 혹은 대중교통 이용 내비게이션을 전용 모바일 앱에 다국어로 신설합니다. 문헌정보학의 정보 접근성 이론을 실현하여 복잡한 민간 상점 예약 없이도 관광객이 대중교통 데이터와 모바일 접근성만으로 무료 도서관에 장벽 없이 안전하게 도착하도록 유도합니다.
+                        </p>
+                    </div>
+                    <div class="p-4 bg-slate-50 dark:bg-slate-850 rounded-xl">
+                        <h4 class="font-bold text-slate-800 dark:text-slate-100 mb-1 text-sm md:text-base">3. 전문 라이브러리 도슨트 도입 및 지식 큐레이션 서비스 (Librarian Curation)</h4>
+                        <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed text-justify">
+                            단순 시설 탐방을 넘어, 문헌정보학 전공 사서 교사들이 관광객들을 위해 도서관이 소장한 역사 및 희귀 자료를 도슨트 형태로 설명하는 <strong>'지식 도슨트 투어'</strong> 프로그램을 개발합니다. 이는 각 구청의 일자리 사업과 연계하여 문헌정보학과 청년 인력들에게 양질의 가치 지향적 직무 일자리를 제공할 수 있어 경제 선순환을 유도합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-amber-500 to-[#D4AF37] p-8 rounded-2xl shadow-md text-white text-center">
+                <h4 class="text-xl font-bold mb-2">🎓 문헌정보학을 품은 관광 1조 원 부산의 미래</h4>
+                <p class="text-amber-50 text-sm md:text-base leading-relaxed max-w-3xl mx-auto text-justify md:text-center">
+                    문헌정보학은 방대하게 흩어진 기록과 데이터를 분류하고 정렬하여 세상에 이로운 지혜로 재가공하는 지식의 학문입니다. 부산이 1조 원의 관광 성과 뒤에 '청년 일자리 부족'과 '지역 편중 및 소외'라는 고질적 아픔을 겪고 있을 때, 누구에게나 평등한 도서관 인프라를 바탕으로 정보 격차를 좁히고 로컬 기억을 큐레이팅하는 '부산 라이브러리 투어'야말로 세상에서 가장 품격 있고 실천적인 전공 맞춤형 대안이 될 것입니다.
                 </p>
             </div>
         </div>
 
     </main>
-
-    <!-- 모달 백드롭 -->
-    <div id="wordcloud-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4 transition-all">
-        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 transition-all transform scale-95 opacity-0 duration-300" id="modal-container">
-            <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-900">
-                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-                    <span>☁️</span> 댓글 명사 워드클라우드
-                </h3>
-                <button onclick="app.closeWordcloud()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-3xl leading-none">&times;</button>
-            </div>
-            <div class="p-6 flex flex-col items-center justify-center bg-slate-100 dark:bg-slate-950">
-                <img src="./noun_wordcloud.png" alt="댓글 워드클라우드" class="max-w-full h-auto rounded-xl shadow-md border border-slate-200 dark:border-slate-700" onerror="this.onerror=null; this.src='https://placehold.co/600x400?text=Wordcloud+Image+Not+Found';">
-            </div>
-            <div class="p-4 bg-slate-50 dark:bg-slate-900 text-right border-t border-slate-100 dark:border-slate-800">
-                <button onclick="app.closeWordcloud()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white dark:bg-slate-200 dark:hover:bg-slate-100 dark:text-slate-900 text-sm font-bold rounded-lg transition-colors shadow-sm">닫기</button>
-            </div>
-        </div>
-    </div>
 
     <script>
         const appData = {
@@ -482,17 +621,28 @@
                         ]
                     }
                 }
-            }
+            },
+            // 실제 도서관들의 지리적 별자리 좌표 매핑 (Canvas 800x400 상의 절대좌표)
+            libraries: [
+                { id: 'lh', name: '국회부산도서관', x: 130, y: 260, desc: '서부산 거점 (명지)', color: '#ef4444', cardId: 'card-lh' },
+                { id: 'bl', name: '부산도서관', x: 260, y: 150, desc: '사상 중심 (덕포)', color: '#3b82f6', cardId: 'card-bl' },
+                { id: 'cl', name: '시민도서관', x: 440, y: 90, desc: '부산 최초 역사 (초읍)', color: '#10b981', cardId: 'card-cl' },
+                { id: 'bj', name: '부전도서관', x: 470, y: 180, desc: '도심 지성 요람 (서면)', color: '#f59e0b', cardId: 'card-bj' },
+                { id: 'bd', name: '북두칠성도서관', x: 420, y: 270, desc: '원도심 예술 거점 (초량)', color: '#8b5cf6', cardId: 'card-bd' }
+            ]
         };
 
         const app = {
             charts: {},
             currentTheme: 'light',
+            hoveredLibrary: null,
+            pulseValue: 0,
             
             init() {
                 this.initThemeFromStorage();
                 this.initOverviewChart();
                 this.initSentimentChart();
+                this.initConstellationMap();
             },
 
             initThemeFromStorage() {
@@ -725,6 +875,228 @@
                         </div>
                     </div>
                 `;
+            },
+
+            // 도서관 별자리 지도 메커니즘 초기화
+            initConstellationMap() {
+                const canvas = document.getElementById('constellationCanvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+
+                // 인터랙티브 마우스 호버 리스너
+                canvas.addEventListener('mousemove', (e) => {
+                    const rect = canvas.getBoundingClientRect();
+                    const scaleX = canvas.width / rect.width;
+                    const scaleY = canvas.height / rect.height;
+                    const mouseX = (e.clientX - rect.left) * scaleX;
+                    const mouseY = (e.clientY - rect.top) * scaleY;
+
+                    let found = null;
+                    // 클릭 반경 검사
+                    appData.libraries.forEach(lib => {
+                        const dist = Math.sqrt((mouseX - lib.x) ** 2 + (mouseY - lib.y) ** 2);
+                        if (dist < 18) {
+                            found = lib;
+                        }
+                    });
+
+                    if (this.hoveredLibrary !== found) {
+                        // 기존 하이라이트 지우기
+                        if (this.hoveredLibrary) {
+                            const card = document.getElementById(this.hoveredLibrary.cardId);
+                            if (card) {
+                                card.classList.remove('ring-4', 'ring-amber-400', 'scale-[1.02]');
+                            }
+                        }
+                        
+                        this.hoveredLibrary = found;
+
+                        // 새로 올린 카드 하이라이트
+                        if (found) {
+                            const card = document.getElementById(found.cardId);
+                            if (card) {
+                                card.classList.add('ring-4', 'ring-amber-400', 'scale-[1.02]');
+                                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            }
+                        }
+                    }
+                });
+
+                // 별 반짝임 효과 렌더링 루프
+                const tick = () => {
+                    this.pulseValue += 0.05;
+                    this.drawConstellation(canvas, ctx);
+                    requestAnimationFrame(tick);
+                };
+                tick();
+            },
+
+            // 캔버스에 지리적 라인, 해안선, 별자리 연결부 그리기
+            drawConstellation(canvas, ctx) {
+                const isDark = document.documentElement.classList.contains('dark');
+                
+                // 배경 클리어링
+                ctx.fillStyle = isDark ? '#020617' : '#f8fafc';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // --- 1. 정교한 부산 실제 지리적 경계 & 해안선 드로잉 ---
+                ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.2)' : 'rgba(2, 132, 199, 0.15)';
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                
+                // 가덕도 기점(왼쪽 아래)에서 낙동강 하구, 부산항, 오륙도, 광안리, 해운대, 기장 해안선 매핑
+                ctx.moveTo(30, 380); // 가덕도 남단
+                ctx.lineTo(80, 360); // 가덕도 북단
+                ctx.lineTo(100, 310); // 신호동 연안
+                
+                // 낙동강 삼각주 (을숙도 등 퇴적지 실루엣)
+                ctx.lineTo(130, 300);
+                ctx.lineTo(150, 320);
+                ctx.lineTo(170, 290);
+                ctx.lineTo(190, 320); // 낙동강 하안선 끝
+                
+                // 사하구 몰운대 / 다대포 지형
+                ctx.bezierCurveTo(200, 360, 220, 380, 230, 370);
+                ctx.lineTo(240, 330); // 송도해수욕장 입구
+                ctx.bezierCurveTo(270, 320, 290, 340, 315, 335); // 송도 암남공원 반도
+                ctx.lineTo(330, 295); // 자갈치/남포동 연안
+                
+                // 영도 (그리기 전에 영도해안선 연결)
+                ctx.lineTo(380, 280); // 부산대교 부근
+                ctx.stroke();
+
+                // 가덕도 섬 드로잉 (왼쪽 아래 별도 마크)
+                ctx.fillStyle = isDark ? 'rgba(56, 189, 248, 0.08)' : 'rgba(2, 132, 199, 0.04)';
+                ctx.beginPath();
+                ctx.ellipse(65, 350, 15, 25, Math.PI / 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // 영도 섬 드로잉 (중앙 하단 원형 섬)
+                ctx.beginPath();
+                ctx.ellipse(395, 335, 30, 22, -Math.PI / 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // 부산항(영도 북쪽 우측 해안선 연장) -> 오륙도 방향
+                ctx.beginPath();
+                ctx.moveTo(380, 280);
+                ctx.lineTo(430, 270); // 북항 재개발구역 연안
+                ctx.lineTo(460, 290); // 우암동/감만동 부두
+                ctx.bezierCurveTo(470, 330, 500, 320, 520, 300); // 용호동 이기대 해안선
+                
+                // 광안리 / 해운대 S라인 만(Bay) 지형
+                ctx.bezierCurveTo(535, 270, 550, 275, 565, 250); // 광안리 해변
+                ctx.bezierCurveTo(585, 220, 600, 235, 620, 210); // 동백섬 및 해운대 해변
+                ctx.bezierCurveTo(645, 190, 660, 205, 680, 180); // 달맞이 고개 및 송정 해변
+                ctx.lineTo(720, 140); // 대변항 (기장)
+                ctx.lineTo(760, 90);  // 기장 연안 끝
+                ctx.stroke();
+
+                // --- 2. 오륙도 (용호동 이기대 우측 작은 섬 다섯개) ---
+                ctx.fillStyle = isDark ? '#38bdf8' : '#0284c7';
+                for (let i = 0; i < 5; i++) {
+                    ctx.beginPath();
+                    ctx.arc(535 + i * 4, 318 - i * 1.5, 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // --- 3. 낙동강 대강줄기 드로잉 (사상과 명지를 가르는 물줄기) ---
+                ctx.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.25)' : 'rgba(2, 132, 199, 0.18)';
+                ctx.lineWidth = 8;
+                ctx.beginPath();
+                ctx.moveTo(175, 0); // 북쪽 원천지
+                ctx.bezierCurveTo(185, 80, 170, 160, 190, 230); // 낙동대교 구역
+                ctx.quadraticCurveTo(160, 260, 160, 295); // 명지 방면 갈래
+                ctx.stroke();
+
+                // 서낙동강 서브 물줄기
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(180, 130);
+                ctx.quadraticCurveTo(130, 180, 115, 260);
+                ctx.stroke();
+
+                // --- 4. 부산의 핵심 랜드마크: 광안대교 S자 브릿지 구현 (현수교 점선 이펙트) ---
+                ctx.strokeStyle = isDark ? '#fbbf24' : '#d97706';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([2, 4]); // 다리 구조물 느낌의 반짝이는 이펙트
+                ctx.beginPath();
+                ctx.moveTo(520, 275); // 남구 용호동 램프단
+                ctx.bezierCurveTo(545, 255, 555, 250, 580, 240); // S자 광안대교 현수교 통과선
+                ctx.lineTo(605, 218); // 해운대 벡스코 램프단 연결
+                ctx.stroke();
+                ctx.setLineDash([]); // 대시라인 리셋
+
+                // 광안대교 앵커 주탑 2개 마킹
+                ctx.fillStyle = isDark ? '#f59e0b' : '#b45309';
+                ctx.fillRect(548, 248, 3, 10);
+                ctx.fillRect(562, 242, 3, 10);
+
+                // --- 5. 우주 은하수 효과 ---
+                ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(15, 23, 42, 0.06)';
+                for (let i = 0; i < 40; i++) {
+                    const seedX = (Math.sin(i * 452.12) + 1) * 400;
+                    const seedY = (Math.cos(i * 123.82) + 1) * 200;
+                    ctx.beginPath();
+                    ctx.arc(seedX, seedY, Math.sin(this.pulseValue + i) * 1.2 + 1.5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // --- 6. 별자리 선 드로잉 (서로 이웃한 도서관 지혜의 고리 이음) ---
+                ctx.strokeStyle = isDark ? 'rgba(245, 158, 11, 0.35)' : 'rgba(217, 119, 6, 0.25)';
+                ctx.lineWidth = 1.5;
+                ctx.setLineDash([5, 5]); // 점선 효과로 별자리 감성 표현
+                ctx.beginPath();
+                
+                // 국회부산(130,260) -> 사상부산(260,150) -> 시민(440,90) -> 부전(470,180) -> 북두칠성(420,270) -> 국회부산(순환)
+                ctx.moveTo(appData.libraries[0].x, appData.libraries[0].y);
+                for (let i = 1; i < appData.libraries.length; i++) {
+                    ctx.lineTo(appData.libraries[i].x, appData.libraries[i].y);
+                }
+                ctx.closePath();
+                ctx.stroke();
+                ctx.setLineDash([]); // 점선 스타일 리셋
+
+                // --- 7. 별 모양 노드 및 텍스트 렌더링 ---
+                appData.libraries.forEach(lib => {
+                    const isHovered = this.hoveredLibrary && this.hoveredLibrary.id === lib.id;
+                    const size = isHovered ? 12 : 7;
+                    const pulse = Math.sin(this.pulseValue + lib.x) * 3;
+
+                    // 별 뒤의 백글로우(Glow) 효과
+                    ctx.beginPath();
+                    ctx.arc(lib.x, lib.y, size + 10 + pulse, 0, Math.PI * 2);
+                    ctx.fillStyle = isHovered ? 'rgba(212, 175, 55, 0.3)' : 'rgba(212, 175, 55, 0.08)';
+                    ctx.fill();
+
+                    // 별 그리기 (4각 성좌 디자인)
+                    ctx.fillStyle = isHovered ? '#ffd700' : '#d4af37';
+                    ctx.beginPath();
+                    ctx.moveTo(lib.x, lib.y - size - (isHovered ? pulse : 0));
+                    ctx.lineTo(lib.x + size/2, lib.y - size/2);
+                    ctx.lineTo(lib.x + size + (isHovered ? pulse : 0), lib.y);
+                    ctx.lineTo(lib.x + size/2, lib.y + size/2);
+                    ctx.lineTo(lib.x, lib.y + size + (isHovered ? pulse : 0));
+                    ctx.lineTo(lib.x - size/2, lib.y + size/2);
+                    ctx.lineTo(lib.x - size - (isHovered ? pulse : 0), lib.y);
+                    ctx.lineTo(lib.x - size/2, lib.y - size/2);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    // 도서관 텍스트 라벨링
+                    ctx.font = isHovered ? 'bold 13px Noto Sans KR' : '500 11px Noto Sans KR';
+                    ctx.fillStyle = isDark ? '#f8fafc' : '#0f172a';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(lib.name, lib.x, lib.y - size - 12);
+
+                    // 마우스 호버 시 툴팁 드로잉
+                    if (isHovered) {
+                        ctx.font = '10px Noto Sans KR';
+                        ctx.fillStyle = '#f59e0b';
+                        ctx.fillText(lib.desc, lib.x, lib.y + size + 16);
+                    }
+                });
             }
         };
 
