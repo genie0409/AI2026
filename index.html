@@ -82,16 +82,16 @@
             box-shadow: 0 20px 40px rgba(139, 92, 246, 0.15);
         }
         
-        /* 중간고사 특별 카드 효과 (네온 골드 포인트) */
+        /* 중간고사 및 기말고사 스페셜 골드 네온 극대화 효과 */
         .midterm-special {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%) !important;
-            border: 2px solid rgba(255, 215, 0, 0.3) !important;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(245, 158, 11, 0.05) 50%, rgba(139, 92, 246, 0.08) 100%) !important;
+            border: 2px solid rgba(255, 215, 0, 0.45) !important;
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.15), inset 0 0 20px rgba(255, 215, 0, 0.05) !important;
         }
         
         .midterm-special:hover {
-            border-color: rgba(255, 215, 0, 0.8) !important;
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.9) !important;
+            box-shadow: 0 0 55px rgba(255, 215, 0, 0.35), inset 0 0 25px rgba(255, 215, 0, 0.15) !important;
         }
 
         /* Scrollbar */
@@ -250,7 +250,7 @@
 
     <!-- 스크립트는 모든 HTML 구조가 로드된 후 실행되도록 바디 하단에 안전하게 배치 -->
     <script>
-        // Data (10번 카드 업데이트 포함)
+        // Data
         const assignments = [
             { 
                 id: '01', 
@@ -322,6 +322,14 @@
                 tool: 'Google Antigravity', 
                 summary: 'Google Antigravity를 활용한 데이터 분석 및 시각화, 보고서 생성',
                 link: './workspace/index.html' 
+            },
+            {
+                id: '★(FINAL)', 
+                title: '기말고사 과제: AI 리터러시 프로젝트', 
+                tool: 'Google Gemini, Google AI Studio, Google Antigravity, Vercel', 
+                summary: '국가데이터처 KOSIS 국가통계포털에서 찾은 통계 자료를 바탕으로<br /><strong>학생들의 독서와 스마트폰 이용간의 상관관계</strong>를<br />탐색, 분석, 시각화, 해석, 보고서 작성까지 완성한 페이지입니다.',
+                link: 'https://final-assignment-xi-eight.vercel.app/', 
+                isSpecial: true
             }
         ];
 
@@ -331,43 +339,55 @@
             assignments.forEach((item, index) => {
                 const card = document.createElement('div');
                 
-                // 3-1-3-3 Layout logic
+                // 3-1-3-3 Layout logic + 스페셜 카드 로직
                 let colSpanClass = 'md:col-span-4'; 
                 if (item.isSpecial) {
                     colSpanClass = 'md:col-span-12 midterm-special';
                 }
 
+                // 카드 패딩 컴팩트하게 적용
                 card.className = `card-hover group relative glass rounded-3xl p-5 md:p-6 transition-all duration-500 cursor-pointer overflow-hidden col-span-1 ${colSpanClass} reveal`;
                 
+                // 결과물 보기 링크 버튼 생성
                 const linkHtml = item.link ? `
                     <div class="mt-6 flex items-center justify-between border-t border-black/5 dark:border-white/5 pt-5">
-                        <a href="${item.link}" class="flex items-center gap-2 text-sm font-bold text-purple-600 dark:text-purple-400 hover:text-blue-500 transition-colors group/btn font-sans">
+                        <a href="${item.link}" class="flex items-center gap-2 text-sm font-bold ${item.isSpecial ? 'text-amber-500 dark:text-amber-400 hover:text-yellow-400' : 'text-purple-600 dark:text-purple-400 hover:text-blue-500'} transition-colors group/btn font-sans">
                             <span>결과물 보기</span>
                             <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"></i>
                         </a>
-                        <a href="${item.link}" class="w-9 h-9 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center hover:bg-purple-500 hover:text-white transition-all transform hover:rotate-90">
+                        <a href="${item.link}" class="w-9 h-9 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center ${item.isSpecial ? 'hover:bg-amber-500' : 'hover:bg-purple-500'} hover:text-white transition-all transform hover:rotate-90">
                             <i data-lucide="plus" class="w-5 h-5"></i>
                         </a>
                     </div>
                 ` : '';
 
+                // 스페셜 카드는 24K Polished Gold 그라데이션 적용, 일반 카드는 보라-파랑 그라데이션
+                const idGradient = item.isSpecial 
+                    ? 'from-amber-300 via-yellow-400 to-amber-600' 
+                    : 'from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400';
+
+                // 스페셜 카드의 아이콘 컨테이너는 황금빛 아우라 적용
+                const iconContainerClass = item.isSpecial 
+                    ? 'p-2 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-amber-400 group-hover:text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
+                    : 'p-2 bg-black/5 dark:bg-white/5 rounded-2xl text-blue-600 dark:text-blue-400 group-hover:text-purple-500';
+
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-6 font-sans">
-                        <span class="text-4xl md:text-5xl font-black bg-gradient-to-br from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent opacity-90 group-hover:opacity-100 transition-opacity">
+                        <span class="text-4xl md:text-5xl font-black bg-gradient-to-br ${idGradient} bg-clip-text text-transparent opacity-90 group-hover:opacity-100 transition-opacity">
                             ${item.id}
                         </span>
-                        <div class="p-2 bg-black/5 dark:bg-white/5 rounded-2xl text-blue-600 dark:text-blue-400 group-hover:text-purple-500 transition-colors">
+                        <div class="${iconContainerClass} transition-all duration-300">
                             <i data-lucide="${item.isSpecial ? 'star' : 'zap'}" class="w-5 h-5 md:w-6 md:h-6"></i>
                         </div>
                     </div>
-                    <h3 class="${item.isSpecial ? 'text-2xl md:text-4xl' : 'text-xl md:text-2xl'} font-bold mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors leading-tight font-sans">
+                    <h3 class="${item.isSpecial ? 'text-2xl md:text-4xl' : 'text-xl md:text-2xl'} font-bold mb-3 ${item.isSpecial ? 'text-amber-500 dark:text-amber-400 group-hover:text-yellow-400' : 'group-hover:text-purple-600 dark:group-hover:text-purple-300'} transition-colors leading-tight font-sans">
                         ${item.title}
                     </h3>
                     <p class="${item.isSpecial ? 'text-lg md:text-2xl md:max-w-4xl' : 'text-sm md:text-base'} text-gray-500 dark:text-gray-400 leading-relaxed mb-6 font-sans">
                         ${item.summary}
                     </p>
                     <div class="flex items-center">
-                        <div class="px-3 py-1 bg-black/5 dark:bg-white/5 rounded-full text-[10px] md:text-xs font-bold ${item.isSpecial ? 'text-yellow-600 dark:text-yellow-400 border-yellow-500/30' : 'text-gray-500 dark:text-gray-300 border-black/5 dark:border-white/5'} border uppercase tracking-widest text-center font-sans">
+                        <div class="px-3 py-1 bg-black/5 dark:bg-white/5 rounded-full text-[10px] md:text-xs font-bold ${item.isSpecial ? 'text-amber-600 dark:text-amber-400 border-amber-500/30' : 'text-gray-500 dark:text-gray-300 border-black/5 dark:border-white/5'} border uppercase tracking-widest text-center font-sans">
                             ${item.tool}
                         </div>
                     </div>
